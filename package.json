@@ -1,0 +1,15 @@
+{
+  "name": "businessportfolio",
+  "version": "1.0.0",
+  "description": "Root workspace for aglportfolio frontend and backend server",
+  "scripts": {
+    "dev": "concurrently --names \"client,server\" --prefix-colors \"cyan,magenta\" \"npm run dev --prefix aglportfolio\" \"npm run dev --prefix server\"",
+    "build": "npm run build --prefix aglportfolio ; npm run build --prefix server",
+    "install:all": "npm install --prefix aglportfolio ; npm install --prefix server",
+    "client": "npm run dev --prefix aglportfolio",
+    "server": "npm run dev --prefix server"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

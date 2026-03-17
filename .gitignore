@@ -1,0 +1,8 @@
+node_modules/
+aglportfolio/node_modules/
+server/node_modules/
+aglportfolio/dist/
+aglportfolio/dist-ssr/
+server/dist/
+*.log
+*.local
