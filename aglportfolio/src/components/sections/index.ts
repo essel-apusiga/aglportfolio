@@ -1,0 +1,7 @@
+export { AboutSection } from './AboutSection'
+export { FooterSection } from './FooterSection'
+export { HeaderSection } from './HeaderSection'
+export { HeroSection } from './HeroSection'
+export { LocationContactSection } from './LocationContactSection'
+export { ProductsSection } from './ProductsSection'
+export { TeamSection } from './TeamSection'

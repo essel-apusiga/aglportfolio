@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GreenTech Solutions - Innovative Sustainability</title>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#11d452',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          borderRadius: {
+            'custom': '8px',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-utilities">
+    .rounded-theme { border-radius: 8px; }
+    .bg-primary-soft { background-color: rgba(17, 212, 82, 0.1); }
+    .carousel-container { scrollbar-width: none; -ms-overflow-style: none; }
+    .carousel-container::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body class="bg-white text-slate-900 font-sans antialiased">
+<!-- BEGIN: MainHeader -->
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-100" data-purpose="site-navigation">
+<nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-20">
+<!-- Logo -->
+<div class="flex-shrink-0 flex items-center gap-2">
+<div class="w-10 h-10 bg-primary rounded-custom flex items-center justify-center">
+<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<span class="text-xl font-bold tracking-tight">GreenTech</span>
+</div>
+<!-- Navigation Links -->
+<div class="hidden md:flex space-x-8">
+<a class="text-slate-600 hover:text-primary font-medium transition-colors" href="#">Home</a>
+<a class="text-slate-600 hover:text-primary font-medium transition-colors" href="#products">Products</a>
+<a class="text-slate-600 hover:text-primary font-medium transition-colors" href="#team">Team</a>
+<a class="text-slate-600 hover:text-primary font-medium transition-colors" href="#contact">Contact</a>
+</div>
+<!-- CTA -->
+<div class="hidden md:block">
+<button class="bg-primary hover:bg-green-600 text-white px-6 py-2.5 rounded-custom font-semibold transition-all shadow-sm">
+            Get Started
+          </button>
+</div>
+<!-- Mobile Menu Toggle -->
+<div class="md:hidden">
+<button class="p-2 rounded-md text-slate-600 hover:bg-slate-100">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+</nav>
+</header>
+<!-- END: MainHeader -->
+<main>
+<!-- BEGIN: HeroSection -->
+<section class="relative bg-slate-50 overflow-hidden" data-purpose="hero-banner">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 flex flex-col md:flex-row items-center">
+<div class="md:w-1/2 text-center md:text-left z-10">
+<h1 class="text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-6">
+            Powering a <span class="text-primary">Smarter</span> &amp; Greener Future
+          </h1>
+<p class="text-lg text-slate-600 mb-8 max-w-xl mx-auto md:mx-0">
+            Innovative solutions designed to reduce your carbon footprint while maximizing efficiency. Join the sustainability revolution today.
+          </p>
+<div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+<button class="bg-primary hover:bg-green-600 text-white px-8 py-4 rounded-custom text-lg font-bold shadow-lg transition-all transform hover:-translate-y-0.5">
+              Explore Our Tech
+            </button>
+<button class="bg-white border-2 border-slate-200 hover:border-primary text-slate-700 px-8 py-4 rounded-custom text-lg font-bold transition-all">
+              Watch Demo
+            </button>
+</div>
+</div>
+<div class="md:w-1/2 mt-12 md:mt-0 relative">
+<!-- Main Hero Image -->
+<img alt="Hero Tech Visualization" class="rounded-custom shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeDocvf92sa-rM9q-Cn9fnjOBX6OpdOnq4--D-pIXpPc51LKpWquVYaX6y0muqIhxwfBAO1cwdzawbdns7N4QTW7-aP5NjFCrwQBn6xi1SjIhsKWcXdcRVLutHsFlbXgTpLcztOG4YlEGoQ5FmgJlXdUn5l3EdK3RmDcILz_0wNqrxkhZbw2_zpO6GEklP4H-ryAZJEFSNd3RJ9GZev7XZ7daLjIAhNUJvE9nf74xVbzIspc6_xdMqkmP_VqissBwkAhzEM9b07AT6"/>
+<!-- Decorative Background Element -->
+<div class="absolute -bottom-6 -left-6 w-48 h-48 bg-primary/10 rounded-full blur-3xl"></div>
+</div>
+</div>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: FeaturedProducts -->
+<section class="py-24 bg-white" data-purpose="product-carousel" id="products">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="text-3xl font-bold text-slate-900">Featured Products</h2>
+<div class="h-1.5 w-20 bg-primary mt-3 rounded-full"></div>
+</div>
+<div class="flex gap-2">
+<button class="p-3 border border-slate-200 rounded-custom hover:border-primary text-slate-400 hover:text-primary transition-colors" id="prevBtn">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<button class="p-3 border border-slate-200 rounded-custom hover:border-primary text-slate-400 hover:text-primary transition-colors" id="nextBtn">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+<div class="carousel-container flex overflow-x-auto gap-8 pb-8 snap-x" id="productCarousel">
+<!-- Product Card 1 -->
+<article class="min-w-[320px] max-w-[320px] bg-white border border-slate-100 rounded-custom overflow-hidden shadow-sm hover:shadow-md transition-shadow snap-start" data-purpose="product-card">
+<img alt="Solar Panel X1" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCk0XexsMjIBBY6kg-pkEf9M6TZSlr2LkYSru1KGw75H4dWLB7rt0ObwGiYd5rRD6kU0detjZOIfF8CdjRNPYY63RDoioxIyr9nH2M83QTi0gAX0IiWx76-C4l3vrYeTeG_HzAbBApMaZoe2kr26ET6tc9Hc_YFLwidSP6hvc1mN6029EmsiabQORKHWfWTQKVsMoIkCzs-PPfejOI00bpBP72_Zb5Vmsqiuh9XYq1A35uyXew9zPmumB8KTK2cTJVIihB8QM0nHsMS"/>
+<div class="p-6">
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Efficiency Pro</span>
+<h3 class="text-xl font-bold mt-2 mb-2">Solar Panel X1</h3>
+<p class="text-slate-500 text-sm mb-4">High-efficiency photovoltaic modules for residential rooftop installations.</p>
+<div class="flex justify-between items-center">
+<span class="text-2xl font-bold text-slate-900">$499.00</span>
+<button class="text-primary hover:text-green-700 font-semibold flex items-center gap-1">
+                  View <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+</article>
+<!-- Product Card 2 -->
+<article class="min-w-[320px] max-w-[320px] bg-white border border-slate-100 rounded-custom overflow-hidden shadow-sm hover:shadow-md transition-shadow snap-start" data-purpose="product-card">
+<img alt="EcoBattery 500" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5B5Ku6rStIK7VUF261ey1bbjG4fIvj4ssPa3Y2lkHIaOO6agIDXCv6XvUZzkEub8C8c0XI4rZEai7wWbVmhX7Iyj0AtJ5F8rfkc-I9d9pgBSskdYi9wKTZaitDGt3mbk-eZIaoLrxlAfRV4vOulzS4nXRDabOF3trlkfaL1ls0BlTIVoH2LURlwL1F-Akn1C1H8c35PLbc7ZdpY2Ah5c9vHMIAvqipqY40UA6WonKO4Mt0FLfDtWAkG03Fo26rc6okOhzUW4wgfml"/>
+<div class="p-6">
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Storage</span>
+<h3 class="text-xl font-bold mt-2 mb-2">EcoBattery 500</h3>
+<p class="text-slate-500 text-sm mb-4">Compact lithium-ion energy storage system with intelligent power management.</p>
+<div class="flex justify-between items-center">
+<span class="text-2xl font-bold text-slate-900">$1,250.00</span>
+<button class="text-primary hover:text-green-700 font-semibold flex items-center gap-1">
+                  View <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+</article>
+<!-- Product Card 3 -->
+<article class="min-w-[320px] max-w-[320px] bg-white border border-slate-100 rounded-custom overflow-hidden shadow-sm hover:shadow-md transition-shadow snap-start" data-purpose="product-card">
+<img alt="SmartMeter V2" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcI_6EnkVFeTnCriRVzW_Z62y0JS0IF26OmByLQB5haNVf_76tosF7tprcmft9ovmISBlWN3TkbupZhJYh4O66zEnNLFtyhfgMuuKUDyMW_NO8OzAb7IY76Vt8Zcd_v8DArmUUgSDMCI0dQpLZzGQzgdEvXnwBIJrfyDa8d38Erq2q_Suq4gBOEmUtJ1QJebQ5SOureKQ9D2ZuO7Jg4FqfQnfyngG4eqW2mwF_TlYPfhNEQgGp4Oz6934G56qn9a9q4fLAivnWi-Ng"/>
+<div class="p-6">
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Analytics</span>
+<h3 class="text-xl font-bold mt-2 mb-2">SmartMeter V2</h3>
+<p class="text-slate-500 text-sm mb-4">Real-time energy consumption monitoring with mobile app integration.</p>
+<div class="flex justify-between items-center">
+<span class="text-2xl font-bold text-slate-900">$129.00</span>
+<button class="text-primary hover:text-green-700 font-semibold flex items-center gap-1">
+                  View <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+</article>
+<!-- Product Card 4 -->
+<article class="min-w-[320px] max-w-[320px] bg-white border border-slate-100 rounded-custom overflow-hidden shadow-sm hover:shadow-md transition-shadow snap-start" data-purpose="product-card">
+<img alt="WindTurbine Mini" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbnlU4JvtpqJhGPXqmObG2XGfxtushSs0Ghzs58JGOxFSxHhKP6WH7SHvTPot2dhPN347u5z7-gsbYAAqn0HInDGsLmdTeV5LLP5QMgPhJ9QW1debfOhI7_XINpD7-3zEVPqOIfiHyqLrlYNBVQ6PVXKfp2Im17eqC7iO4XTXj3y0kLKx0H15V1Kju6ZNlqTLLtE9rdSfRsha0QRjINjTAEj-WesjAx3b8aL3_ebU91H2G1ITIBn1y1B5Q6c5wl4kYWC5grThnRQSw"/>
+<div class="p-6">
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Urban Wind</span>
+<h3 class="text-xl font-bold mt-2 mb-2">WindTurbine Mini</h3>
+<p class="text-slate-500 text-sm mb-4">Vertical axis wind turbine designed for urban and residential environments.</p>
+<div class="flex justify-between items-center">
+<span class="text-2xl font-bold text-slate-900">$875.00</span>
+<button class="text-primary hover:text-green-700 font-semibold flex items-center gap-1">
+                  View <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+</article>
+</div>
+</div>
+</section>
+<!-- END: FeaturedProducts -->
+<!-- BEGIN: TeamSection -->
+<section class="py-24 bg-slate-50" data-purpose="team-section" id="team">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl font-bold text-slate-900">Leadership Team</h2>
+<p class="mt-4 text-slate-600 max-w-2xl mx-auto">Our experts are dedicated to paving the way for a more sustainable and efficient world through engineering excellence.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Member 1 -->
+<div class="bg-white p-6 rounded-custom shadow-sm border border-slate-100 text-center transition-transform hover:-translate-y-2" data-purpose="team-member-card">
+<img alt="Sarah Johnson" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6lR6v-CgkA9_TdZVVxqct6zp-yhw8epGNkAf8j5yvKTVMmMUBi5pFoSaJl1c3KsVnQXxs37mGwHFLrnirYIFjcU5xAF716u75Vy2GwtgdOCXHZgOkzTS75wgVbyhkRCf703Dig8AWS7CgDJwN4ErIM4fFl7C6MaAABD2XQgqKCFVdmVL9TrjWoJR-2XNv4FzHOOEs8E387n70YoZ9wiHXa39uN7GpoyQGT5qU-e5uCZ4EWXtguBunQkweuHyOktsoMzRjO-WmFxsa"/>
+<h4 class="text-lg font-bold text-slate-900">Sarah Johnson</h4>
+<p class="text-primary font-medium text-sm">Chief Executive Officer</p>
+</div>
+<!-- Member 2 -->
+<div class="bg-white p-6 rounded-custom shadow-sm border border-slate-100 text-center transition-transform hover:-translate-y-2" data-purpose="team-member-card">
+<img alt="Mark Chen" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSgE1Q31HO7cgPNHWIZlJRoe0gHBId-8KMrxLh-5pzwL43dwMHhUyALs2Vpjvcfsua0iY0DcuHfWGlQHsCOgf0oz7E5LJnXPGfzs3VRh7m-XKDH5tp45N0DNdVHIEUS_TIDRZGNqkeNyGT8FekhYbgnMFQHPZQbbIAakYR8RjWaMg5Q2BksyRIQ87CdihHko05DawXNyuDxBuACYKrCIM4DAunxHZ87ATm7gPc29h2s3P0VQ8l8kbgVqAzkO9xb5FaRKShXR0X7kVk"/>
+<h4 class="text-lg font-bold text-slate-900">Mark Chen</h4>
+<p class="text-primary font-medium text-sm">Head of Engineering</p>
+</div>
+<!-- Member 3 -->
+<div class="bg-white p-6 rounded-custom shadow-sm border border-slate-100 text-center transition-transform hover:-translate-y-2" data-purpose="team-member-card">
+<img alt="Elena Rodriguez" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0QdYqStp1tKGUcrVtJ407FkQPtsuxDoZzehg7mcRyrCWrJaqhkSjgPpcVSPFybQEJfPpXk9MCeLSk0JjMpcF8DcgzPJvlFEhJd1NHIGgI0eQ_IvNYhftV6BSJkNntxv_oq6CIC0WVgJ6FDvb3zxJHG5jmEIrmVWMVOx8sc1nqDlJd9eAb-Mn8OWdmnn014RoV-mTFsSHmBUp-tKdcwQ9lD5VpiWov5D3hW_dv-cYbWGreCXhsqkUZgIwJeCkfBnWKbObwu75IBJmu"/>
+<h4 class="text-lg font-bold text-slate-900">Elena Rodriguez</h4>
+<p class="text-primary font-medium text-sm">Lead Product Designer</p>
+</div>
+<!-- Member 4 -->
+<div class="bg-white p-6 rounded-custom shadow-sm border border-slate-100 text-center transition-transform hover:-translate-y-2" data-purpose="team-member-card">
+<img alt="James Wilson" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA40ohW1avpVZTaSOVe8--ytMxaU-SA8U81jwHs6nHS4_kkx3nUKIqKYhfEzBNTFPpThDT-Y9T4gCrQtSksgvkf2YylbanZrChY8TIaLYEAoW4skEvahYcLSLanhDAY_G465yXpYMYECKrTBlIb7hm8FmJlhze3Ad8uNNFs79XM8LxxtH52mwxoGfrG61dC19TpYX4mwsMSeGWkUfheH2i4wOZ-OO5BepkP6dsThUHB2pbYw6icLTrENSq0D2QgRhlC15k3UBmn23Qf"/>
+<h4 class="text-lg font-bold text-slate-900">James Wilson</h4>
+<p class="text-primary font-medium text-sm">Operations Director</p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: TeamSection -->
+<!-- BEGIN: LocationAndContact -->
+<section class="py-24 bg-white" data-purpose="location-section" id="contact">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
+<!-- Left Column: Info & Map -->
+<div>
+<h2 class="text-3xl font-bold text-slate-900 mb-6">Visit Our Headquarters</h2>
+<p class="text-slate-600 mb-8">Located in the heart of Silicon Valley, our flagship office serves as our R&amp;D hub and showcase for our latest technologies.</p>
+<div class="space-y-6 mb-12">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 bg-primary-soft rounded-custom flex items-center justify-center flex-shrink-0">
+<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<h4 class="font-bold text-slate-900">Address</h4>
+<p class="text-slate-600 text-sm italic">123 Innovation Way, Suite 400<br/>Palo Alto, CA 94301</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 bg-primary-soft rounded-custom flex items-center justify-center flex-shrink-0">
+<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<h4 class="font-bold text-slate-900">Contact</h4>
+<p class="text-slate-600 text-sm">hello@greentech.example.com<br/>+1 (555) 000-1234</p>
+</div>
+</div>
+</div>
+<!-- Simulated Map -->
+<div class="h-[300px] bg-slate-200 rounded-custom overflow-hidden relative shadow-inner">
+<img alt="Office Location Map" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsp1U6iLYPF3Mm0BpThEUgjK7BsitSZH5qn78DRD6RRBeEVWGOIdtcjb30u653oWMtxfrPBWjk6Jgun3v_K2tkTokVsxHnYPNzOiR1DHo6Js3xcZznHkl1V7wbZMWT-iuNp90_-Oca5IAZ6lm8jurKlkHfzNmknFR3k9CIkzZcmR3kUKoXKl7q9vWomzGPhZWBU2renzL_kUSjrdNThEVDkE4ACePGT0RadwvE4Vw11RU0Ag-1DN26Y4agD5jruwZqSJ51bOSnVFyO"/>
+<div class="absolute inset-0 bg-slate-900/5 pointer-events-none"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+<div class="relative">
+<div class="w-8 h-8 bg-primary rounded-full animate-ping absolute inset-0"></div>
+<div class="w-8 h-8 bg-primary rounded-full relative border-2 border-white flex items-center justify-center">
+<div class="w-2 h-2 bg-white rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Contact Form -->
+<div class="bg-slate-50 p-8 rounded-custom border border-slate-100 shadow-sm" data-purpose="contact-form-container">
+<h3 class="text-2xl font-bold text-slate-900 mb-2">Get in Touch</h3>
+<p class="text-slate-600 mb-8 text-sm">Have a project in mind or want to learn more about our solutions? Fill out the form below.</p>
+<form action="#" class="space-y-6" method="POST">
+<div>
+<label class="block text-sm font-semibold text-slate-700 mb-2" for="name">Full Name</label>
+<input class="w-full px-4 py-3 rounded-custom border-slate-200 focus:border-primary focus:ring-primary transition-colors text-slate-900 placeholder-slate-400" id="name" name="name" placeholder="John Doe" required="" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-semibold text-slate-700 mb-2" for="email">Email Address</label>
+<input class="w-full px-4 py-3 rounded-custom border-slate-200 focus:border-primary focus:ring-primary transition-colors text-slate-900 placeholder-slate-400" id="email" name="email" placeholder="john@example.com" required="" type="email"/>
+</div>
+<div>
+<label class="block text-sm font-semibold text-slate-700 mb-2" for="message">Message</label>
+<textarea class="w-full px-4 py-3 rounded-custom border-slate-200 focus:border-primary focus:ring-primary transition-colors text-slate-900 placeholder-slate-400 min-h-[120px]" id="message" name="message" placeholder="How can we help you?" required=""></textarea>
+</div>
+<button class="w-full bg-primary hover:bg-green-600 text-white font-bold py-4 rounded-custom shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5" type="submit">
+                Send Message
+              </button>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- END: LocationAndContact -->
+</main>
+<!-- BEGIN: Footer -->
+<footer class="bg-slate-900 text-white pt-16 pb-8" data-purpose="main-footer">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+<!-- Brand Info -->
+<div class="space-y-6">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded-custom flex items-center justify-center">
+<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<span class="text-xl font-bold">GreenTech</span>
+</div>
+<p class="text-slate-400 text-sm leading-relaxed">
+            Leading the global transition to renewable energy with hardware and software solutions that make sense for the planet and your pocket.
+          </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-custom bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors" href="#">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
+</a>
+<a class="w-10 h-10 rounded-custom bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors" href="#">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+</a>
+</div>
+</div>
+<!-- Links Columns -->
+<div>
+<h4 class="font-bold mb-6">Quick Links</h4>
+<ul class="space-y-4 text-slate-400 text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Our Process</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Blog</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Careers</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-6">Support</h4>
+<ul class="space-y-4 text-slate-400 text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">Help Center</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Sustainability Report</a></li>
+</ul>
+</div>
+<!-- Newsletter -->
+<div>
+<h4 class="font-bold mb-6">Newsletter</h4>
+<p class="text-slate-400 text-sm mb-4">Stay updated with the latest in green tech.</p>
+<div class="flex">
+<input class="bg-slate-800 border-none rounded-l-custom text-white w-full focus:ring-1 focus:ring-primary text-sm" placeholder="Email address" type="email"/>
+<button class="bg-primary hover:bg-green-600 px-4 py-2 rounded-r-custom transition-colors">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+</div>
+<div class="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-slate-500 text-xs text-center md:text-left">
+          © 2023 GreenTech Solutions Inc. All rights reserved. Built with sustainability in mind.
+        </p>
+<div class="flex gap-6 text-slate-500 text-xs">
+<span>Version 2.4.0</span>
+<span>Security Certified</span>
+</div>
+</div>
+</div>
+</footer>
+<!-- END: Footer -->
+<script data-purpose="carousel-logic">
+    const carousel = document.getElementById('productCarousel');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    if (carousel && prevBtn && nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        carousel.scrollBy({ left: 352, behavior: 'smooth' });
+      });
+      prevBtn.addEventListener('click', () => {
+        carousel.scrollBy({ left: -352, behavior: 'smooth' });
+      });
+    }
+  </script>
+</body></html>

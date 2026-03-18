@@ -4,6 +4,39 @@
   padding: 1rem;
 }
 
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+}
+
+.site-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #0d5435;
+}
+
+.site-nav nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.site-nav nav a {
+  color: #1e6545;
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 0.25rem 0.45rem;
+  border-radius: 0.4rem;
+}
+
+.site-nav nav a:hover {
+  background: #e8f8ef;
+}
+
 .showcase-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
@@ -21,6 +54,11 @@
 .showcase-hero p {
   margin-bottom: 1rem;
   color: #2d6248;
+}
+
+.hero-copy {
+  display: grid;
+  gap: 0.4rem;
 }
 
 .showcase-avatars {
@@ -61,12 +99,77 @@
   font-size: 0.92rem;
 }
 
+.about-image {
+  width: 100%;
+  border-radius: 0.8rem;
+  border: 1px solid #ccead9;
+  object-fit: cover;
+  height: 240px;
+}
+
+.map-wrap {
+  border-radius: 0.8rem;
+  overflow: hidden;
+  border: 1px solid #c8e8d7;
+}
+
+.map-wrap iframe {
+  width: 100%;
+  min-height: 280px;
+  border: 0;
+}
+
+.team-grid {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.team-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7rem;
+  align-items: flex-start;
+  border: 1px solid #d5eddf;
+  border-radius: 0.75rem;
+  padding: 0.7rem;
+  background: #fbfffd;
+}
+
+.team-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.team-role {
+  color: #1a7650;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.site-footer p {
+  margin: 0.3rem 0 0;
+}
+
 .showcase-form-grid {
   display: grid;
   gap: 0.8rem;
 }
 
 @media (max-width: 960px) {
+  .site-nav,
+  .site-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .showcase-hero,
   .showcase-grid--3,
   .showcase-grid--2 {
