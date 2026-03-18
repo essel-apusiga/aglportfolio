@@ -1,21 +1,40 @@
 .company-page {
+  --green-900: #0b4f31;
+  --green-800: #0f6a41;
+  --green-700: #148a54;
+  --green-600: #18a15f;
+  --green-200: #cdeedc;
+  --green-100: #e9f8ef;
+  --green-50: #f6fff9;
+  --page-padding: clamp(1rem, 3.5vw, 2.6rem);
   background: #ffffff;
-  color: #0f172a;
+  color: var(--green-900);
+  width: 100%;
+  min-height: 100vh;
+}
+
+.company-header,
+.company-hero,
+.about-section,
+.products-section,
+.team-section,
+.location-contact,
+.company-footer {
+  width: 100%;
+  padding-inline: var(--page-padding);
 }
 
 .company-header {
   position: sticky;
   top: 0;
-  z-index: 40;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   min-height: 5rem;
-  padding: 0.9rem 1.2rem;
-  border-bottom: 1px solid #e4ece8;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--green-200);
+  background: rgba(255, 255, 255, 0.98);
 }
 
 .company-header__brand {
@@ -25,27 +44,34 @@
 }
 
 .company-header__brand strong {
-  color: #0f5132;
-  font-size: 1.15rem;
+  color: var(--green-900);
+  font-size: 1.12rem;
 }
 
 .company-header__nav {
   display: flex;
-  gap: 0.55rem;
   flex-wrap: wrap;
+  gap: 0.45rem;
 }
 
-.company-header__nav a {
-  color: #486b59;
+.company-header__nav-link {
+  color: var(--green-800);
   text-decoration: none;
-  font-weight: 500;
-  padding: 0.35rem 0.5rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0.35rem 0.58rem;
   border-radius: 0.5rem;
+  transition: background-color 120ms ease, color 120ms ease;
 }
 
-.company-header__nav a:hover {
-  color: #0f8f57;
-  background: #edf8f2;
+.company-header__nav-link:hover {
+  background: var(--green-100);
+  color: var(--green-900);
+}
+
+.company-header__nav-link.is-active {
+  background: var(--green-700);
+  color: #ffffff;
 }
 
 .company-hero {
@@ -53,58 +79,62 @@
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   align-items: center;
   gap: 2rem;
-  padding: 4.8rem 1.25rem;
-  background: #f8fbf9;
+  padding-top: 4.3rem;
+  padding-bottom: 4.3rem;
+  background: var(--green-50);
 }
 
 .company-hero__copy h1 {
-  font-size: clamp(2.4rem, 5vw, 3.8rem);
-  line-height: 1.1;
   margin: 0.5rem 0 1rem;
-  color: #0f172a;
+  font-size: clamp(2.2rem, 4.9vw, 3.7rem);
+  line-height: 1.08;
+  color: var(--green-900);
 }
 
 .company-hero__copy h1 span {
-  color: #11a85f;
+  color: var(--green-600);
 }
 
 .company-hero__badge {
   margin: 0;
-  color: #1b7f4f;
-  font-weight: 600;
+  color: var(--green-700);
   font-size: 0.95rem;
+  font-weight: 700;
 }
 
 .company-hero__copy p {
-  color: #4f6474;
-  font-size: 1.04rem;
-  max-width: 45rem;
+  margin: 0;
+  color: var(--green-800);
+  max-width: 50rem;
 }
 
 .company-hero__actions {
   display: flex;
-  gap: 0.75rem;
-  margin-top: 1.4rem;
+  gap: 0.7rem;
   flex-wrap: wrap;
+  margin-top: 1.35rem;
 }
 
 .company-hero__image-wrap {
-  position: relative;
+  border: 1px solid var(--green-200);
+  border-radius: 0.8rem;
+  overflow: hidden;
+  background: #ffffff;
 }
 
 .company-hero__image {
   width: 100%;
-  border-radius: 0.75rem;
-  box-shadow: 0 24px 48px rgba(16, 24, 40, 0.16);
+  height: 100%;
+  min-height: 18rem;
+  object-fit: cover;
 }
 
 .about-section,
 .products-section,
 .team-section,
 .location-contact {
-  max-width: 78rem;
-  margin: 0 auto;
-  padding: 4.2rem 1.25rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 .about-section h2,
@@ -112,34 +142,38 @@
 .team-section h2,
 .location-contact h2 {
   margin: 0;
-  font-size: 2rem;
-  color: #0f172a;
+  color: var(--green-900);
+  font-size: clamp(1.6rem, 2.4vw, 2rem);
 }
 
 .about-section p,
 .team-section p,
 .location-contact p {
-  color: #536677;
+  color: var(--green-800);
 }
 
 .about-section__stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
-  margin-top: 1.2rem;
+  gap: 0.8rem;
+  margin-top: 1.3rem;
 }
 
 .about-section__stats article {
-  border: 1px solid #e2ece7;
-  border-radius: 0.6rem;
-  padding: 1rem;
+  border: 1px solid var(--green-200);
+  border-radius: 0.65rem;
   background: #ffffff;
+  padding: 1rem;
 }
 
 .about-section__stats strong {
+  color: var(--green-700);
+  font-size: 1.5rem;
+}
+
+.about-section__stats span {
   display: block;
-  color: #0e7d4c;
-  font-size: 1.45rem;
+  color: var(--green-800);
 }
 
 .products-section__head {
@@ -151,10 +185,10 @@
 
 .products-section__underline {
   margin-top: 0.7rem;
-  width: 4.8rem;
-  height: 0.35rem;
+  width: 4.5rem;
+  height: 0.32rem;
   border-radius: 999px;
-  background: #11a85f;
+  background: var(--green-700);
 }
 
 .products-section__controls {
@@ -163,18 +197,18 @@
 }
 
 .products-section__controls button {
-  border: 1px solid #d8e8df;
-  background: #ffffff;
   width: 2.4rem;
   height: 2.4rem;
   border-radius: 0.5rem;
+  border: 1px solid var(--green-200);
+  background: #ffffff;
+  color: var(--green-700);
   cursor: pointer;
-  color: #6b7f74;
 }
 
 .products-section__controls button:hover {
-  color: #11a85f;
-  border-color: #11a85f;
+  border-color: var(--green-700);
+  color: var(--green-900);
 }
 
 .products-section__carousel {
@@ -192,10 +226,9 @@
 .products-section__card {
   min-width: 19rem;
   max-width: 19rem;
-  border: 1px solid #ebf0ee;
-  border-radius: 0.6rem;
+  border: 1px solid var(--green-200);
+  border-radius: 0.65rem;
   background: #ffffff;
-  box-shadow: 0 8px 16px rgba(16, 24, 40, 0.06);
   overflow: hidden;
   scroll-snap-align: start;
 }
@@ -207,95 +240,85 @@
 }
 
 .products-section__body {
-  padding: 1rem;
+  padding: 0.95rem;
 }
 
 .products-section__body span {
-  color: #1c8a56;
+  color: var(--green-700);
   text-transform: uppercase;
-  font-size: 0.72rem;
   letter-spacing: 0.07em;
+  font-size: 0.72rem;
   font-weight: 700;
 }
 
 .products-section__body h3 {
   margin: 0.4rem 0;
-  color: #0f172a;
+  color: var(--green-900);
 }
 
 .products-section__body p {
-  color: #5d6e7d;
+  color: var(--green-800);
   font-size: 0.9rem;
 }
 
 .products-section__meta {
-  margin-top: 0.7rem;
+  margin-top: 0.8rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .products-section__meta strong {
-  color: #0f172a;
+  color: var(--green-900);
 }
 
 .products-section__meta button {
   border: none;
   background: transparent;
-  color: #14a15d;
-  font-weight: 600;
+  color: var(--green-700);
+  font-weight: 700;
   cursor: pointer;
 }
 
 .team-section {
-  background: #f8fbf9;
-  max-width: 100%;
+  background: var(--green-50);
 }
 
 .team-section__head {
-  max-width: 78rem;
-  margin: 0 auto 2rem;
+  margin-bottom: 1.7rem;
   text-align: center;
-  padding: 0 1.25rem;
 }
 
 .team-section__grid {
-  max-width: 78rem;
-  margin: 0 auto;
-  padding: 0 1.25rem;
   display: grid;
-  gap: 1rem;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
 }
 
 .team-section__card {
-  border: 1px solid #ebf0ee;
+  border: 1px solid var(--green-200);
+  border-radius: 0.65rem;
   background: #ffffff;
-  border-radius: 0.6rem;
-  padding: 1.1rem;
   text-align: center;
-  transition: transform 150ms ease;
-}
-
-.team-section__card:hover {
-  transform: translateY(-4px);
+  padding: 1.05rem;
 }
 
 .team-section__card img {
   width: 5.5rem;
   height: 5.5rem;
-  object-fit: cover;
   border-radius: 999px;
-  border: 4px solid rgba(17, 168, 95, 0.2);
+  border: 4px solid var(--green-100);
+  object-fit: cover;
 }
 
 .team-section__card h3 {
-  margin: 0.8rem 0 0.2rem;
+  margin: 0.75rem 0 0.25rem;
+  color: var(--green-900);
 }
 
 .team-section__card p {
   margin: 0;
-  color: #1c8a56;
+  color: var(--green-700);
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -307,13 +330,14 @@
 }
 
 .location-contact__detail-list {
-  display: grid;
-  gap: 1rem;
   margin: 1.2rem 0;
+  display: grid;
+  gap: 0.95rem;
 }
 
 .location-contact__detail-list h3 {
-  margin-bottom: 0.35rem;
+  color: var(--green-900);
+  margin-bottom: 0.3rem;
 }
 
 .location-contact__detail-list p {
@@ -321,7 +345,7 @@
 }
 
 .location-contact__map-wrap {
-  border: 1px solid #e0ebe5;
+  border: 1px solid var(--green-200);
   border-radius: 0.65rem;
   overflow: hidden;
 }
@@ -333,62 +357,64 @@
 }
 
 .location-contact__form-wrap {
-  border: 1px solid #ebf0ee;
+  border: 1px solid var(--green-200);
   border-radius: 0.65rem;
-  padding: 1.3rem;
-  background: #f8fbf9;
+  background: var(--green-50);
+  padding: 1.2rem;
 }
 
 .location-contact__form {
+  margin-top: 1rem;
   display: grid;
   gap: 0.8rem;
-  margin-top: 1rem;
 }
 
 .location-contact__form label {
   display: grid;
   gap: 0.35rem;
+  color: var(--green-900);
   font-size: 0.86rem;
-  font-weight: 600;
-  color: #2d3a45;
+  font-weight: 700;
 }
 
 .location-contact__form input,
 .location-contact__form textarea {
-  border: 1px solid #d6e8df;
+  border: 1px solid var(--green-200);
   border-radius: 0.5rem;
+  background: #ffffff;
+  color: var(--green-900);
   padding: 0.7rem 0.8rem;
   font: inherit;
 }
 
 .location-contact__form input:focus,
 .location-contact__form textarea:focus {
-  outline: 2px solid rgba(17, 168, 95, 0.2);
-  border-color: #11a85f;
+  outline: 2px solid rgba(20, 138, 84, 0.2);
+  border-color: var(--green-700);
 }
 
 .company-footer {
-  background: #0f172a;
+  background: var(--green-900);
   color: #ffffff;
-  padding: 3rem 1.25rem 1.4rem;
+  padding-top: 2.8rem;
+  padding-bottom: 1.2rem;
 }
 
 .company-footer__grid {
-  max-width: 78rem;
-  margin: 0 auto;
   display: grid;
   grid-template-columns: 1.35fr repeat(3, minmax(0, 1fr));
-  gap: 1.4rem;
+  gap: 1.2rem;
 }
 
 .company-footer h3,
 .company-footer h4 {
-  margin: 0 0 0.6rem;
+  margin: 0 0 0.55rem;
+  color: #ffffff;
 }
 
 .company-footer p,
 .company-footer a {
-  color: #aab4c6;
+  color: #d8f5e3;
   text-decoration: none;
 }
 
@@ -397,38 +423,223 @@
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 0.45rem;
+  gap: 0.4rem;
 }
 
 .company-footer a:hover {
-  color: #11d452;
+  color: #ffffff;
 }
 
 .company-footer__bottom {
-  max-width: 78rem;
-  margin: 1.8rem auto 0;
-  padding-top: 0.9rem;
-  border-top: 1px solid #273247;
-  color: #8f9bb0;
+  margin-top: 1.6rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  color: #e6fbef;
+  font-size: 0.82rem;
+}
+
+.config-editor {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  width: min(34rem, calc(100vw - 2rem));
+  z-index: 70;
+}
+
+.config-editor__bar {
+  border: 1px solid var(--green-200);
+  border-radius: 0.7rem;
+  background: #ffffff;
+  padding: 0.6rem 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.config-editor__bar strong {
+  color: var(--green-900);
+  font-size: 0.9rem;
+}
+
+.config-editor__panel {
+  margin-top: 0.6rem;
+  max-height: 75vh;
+  overflow-y: auto;
+  border: 1px solid var(--green-200);
+  border-radius: 0.7rem;
+  background: #ffffff;
+  padding: 0.8rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.config-editor__hint,
+.config-editor__status {
+  margin: 0;
+  color: var(--green-800);
+  font-size: 0.86rem;
+}
+
+.config-editor__section {
+  border: 1px solid var(--green-200);
+  border-radius: 0.6rem;
+  padding: 0.7rem;
+  background: var(--green-50);
+  display: grid;
+  gap: 0.6rem;
+}
+
+.config-editor__section h3 {
+  margin: 0;
+  color: var(--green-900);
+  font-size: 1rem;
+}
+
+.config-editor__section p {
+  margin: 0;
+  color: var(--green-800);
+  font-size: 0.85rem;
+}
+
+.config-editor__order-grid,
+.config-editor__nav-grid {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.config-editor__order-item {
+  border: 1px solid var(--green-200);
+  border-radius: 0.55rem;
+  background: #ffffff;
+  padding: 0.45rem 0.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.config-editor__order-item span {
+  color: var(--green-900);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.config-editor__field {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.config-editor__field span {
+  color: var(--green-800);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.config-editor__field input,
+.config-editor__section textarea {
+  width: 100%;
+  border: 1px solid var(--green-200);
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: var(--green-900);
+  padding: 0.55rem 0.65rem;
+  font: inherit;
+}
+
+.config-editor__section textarea {
+  min-height: 13rem;
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 0.82rem;
+}
+
+.config-status {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  border: 1px solid var(--green-200);
+  border-radius: 0.6rem;
+  background: #ffffff;
+  color: var(--green-800);
+  padding: 0.45rem 0.6rem;
+  font-size: 0.82rem;
+  z-index: 65;
+}
+
+.cms-studio {
+  width: 100%;
+  background: #ffffff;
+}
+
+.cms-studio__bar {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  border-bottom: 1px solid var(--green-200);
+  background: #ffffff;
+  padding: 0.85rem var(--page-padding);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.cms-studio__bar strong {
+  color: var(--green-900);
+  font-size: 1rem;
+}
+
+.cms-studio__bar p {
+  margin: 0.2rem 0 0;
+  color: var(--green-800);
+  font-size: 0.85rem;
+}
+
+.cms-studio__bar code {
+  background: var(--green-100);
+  border-radius: 0.35rem;
+  padding: 0.1rem 0.3rem;
+}
+
+.cms-studio__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  border-bottom: 1px solid var(--green-200);
+  background: var(--green-50);
+  color: var(--green-800);
+  padding: 0.6rem var(--page-padding);
   font-size: 0.8rem;
 }
 
 @media (max-width: 960px) {
   .company-header {
+    min-height: auto;
     flex-direction: column;
     align-items: flex-start;
-    min-height: auto;
   }
 
   .company-hero,
-  .location-contact,
-  .company-footer__grid,
   .about-section__stats,
-  .team-section__grid {
+  .team-section__grid,
+  .location-contact,
+  .company-footer__grid {
     grid-template-columns: 1fr;
   }
 
-  .team-section {
-    padding: 4.2rem 0;
+  .cms-studio__bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .config-editor,
+  .config-status {
+    left: 0.7rem;
+    right: 0.7rem;
+    width: auto;
+  }
+
+  .config-status {
+    bottom: 0.6rem;
   }
 }

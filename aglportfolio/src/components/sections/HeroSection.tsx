@@ -9,7 +9,7 @@ export function HeroSection({ content }: HeroSectionProps) {
   const titleParts = content.title.split(content.highlightedWord)
 
   return (
-    <section className="company-hero" data-purpose="hero-banner" id="home">
+    <section className="company-hero" data-purpose="hero-banner" id={content.id}>
       <div className="company-hero__copy">
         <p className="company-hero__badge">{content.badge}</p>
         <h1>

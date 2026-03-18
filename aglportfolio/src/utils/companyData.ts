@@ -3,6 +3,7 @@ import uiReferenceImage from '../assets/ui/screen.png'
 import type { CompanyWebsiteContent } from '../components/website/types'
 
 export const companyWebsiteContent: CompanyWebsiteContent = {
+  sectionOrder: ['home', 'about', 'products', 'team', 'contact'],
   header: {
     badge: 'Apsonic Motors Partner',
     brandName: 'GreenRide Apsonic',
@@ -15,6 +16,7 @@ export const companyWebsiteContent: CompanyWebsiteContent = {
     ],
   },
   hero: {
+    id: 'home',
     badge: 'Sustainable Mobility Platform',
     title: 'Powering a Smarter and Greener Future for Riders',
     highlightedWord: 'Greener',

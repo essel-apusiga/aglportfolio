@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
 import {
   AboutSection,
   FooterSection,
@@ -7,7 +9,7 @@ import {
   ProductsSection,
   TeamSection,
 } from '../sections'
-import type { CompanyWebsiteContent } from './types'
+import type { CompanyWebsiteContent, SectionKey } from './types'
 import './company-website.css'
 
 type CompanyWebsiteProps = {
@@ -15,14 +17,54 @@ type CompanyWebsiteProps = {
 }
 
 export function CompanyWebsite({ content }: CompanyWebsiteProps) {
+  const [activeHref, setActiveHref] = useState<string | undefined>(content.header.navLinks[0]?.href)
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = []
+
+    content.header.navLinks.forEach((link) => {
+      const target = document.querySelector<HTMLElement>(link.href)
+      if (!target) {
+        return
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveHref(link.href)
+            }
+          })
+        },
+        {
+          rootMargin: '-35% 0px -55% 0px',
+          threshold: 0.1,
+        },
+      )
+
+      observer.observe(target)
+      observers.push(observer)
+    })
+
+    return () => {
+      observers.forEach((observer) => observer.disconnect())
+    }
+  }, [content.header.navLinks, content.sectionOrder])
+
+  const sectionMap: Record<SectionKey, ReactNode> = {
+    home: <HeroSection content={content.hero} />,
+    about: <AboutSection content={content.about} />,
+    products: <ProductsSection content={content.products} />,
+    team: <TeamSection content={content.team} />,
+    contact: <LocationContactSection content={content.location} />,
+  }
+
   return (
     <main className="company-page">
-      <HeaderSection content={content.header} />
-      <HeroSection content={content.hero} />
-      <AboutSection content={content.about} />
-      <ProductsSection content={content.products} />
-      <TeamSection content={content.team} />
-      <LocationContactSection content={content.location} />
+      <HeaderSection content={content.header} activeHref={activeHref} />
+      {content.sectionOrder.map((sectionKey) => (
+        <section key={sectionKey}>{sectionMap[sectionKey]}</section>
+      ))}
       <FooterSection content={content.footer} />
     </main>
   )

@@ -47,9 +47,9 @@
 }
 
 .ui-button--danger {
-  background: #c72d2d;
-  color: #fff4f4;
-  box-shadow: 0 8px 20px rgba(199, 45, 45, 0.24);
+  background: #0b5d39;
+  color: #f4fff8;
+  box-shadow: 0 8px 20px rgba(11, 93, 57, 0.24);
 }
 
 .ui-button--sm {
@@ -89,13 +89,13 @@
 }
 
 .ui-badge--warning {
-  background: #fff4d9;
-  color: #8a6414;
+  background: #e6f7ee;
+  color: #1f6c48;
 }
 
 .ui-badge--danger {
-  background: #ffe0e0;
-  color: #a32222;
+  background: #d6f2e4;
+  color: #135f3a;
 }
 
 .ui-avatar {

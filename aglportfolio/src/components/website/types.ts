@@ -4,6 +4,8 @@ export type NavLink = {
   href: string
 }
 
+export type SectionKey = 'home' | 'about' | 'products' | 'team' | 'contact'
+
 export type HeaderContent = {
   badge: string
   brandName: string
@@ -12,6 +14,7 @@ export type HeaderContent = {
 }
 
 export type HeroContent = {
+  id: SectionKey
   badge: string
   title: string
   highlightedWord: string
@@ -101,6 +104,7 @@ export type FooterContent = {
 }
 
 export type CompanyWebsiteContent = {
+  sectionOrder: SectionKey[]
   header: HeaderContent
   hero: HeroContent
   products: ProductSectionContent
