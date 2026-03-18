@@ -42,7 +42,7 @@
       "description": "Discover dependable Apsonic motorcycles, service expertise, and fleet-ready support designed for modern commuters and businesses.",
       "primaryCta": "Explore Our Models",
       "secondaryCta": "Watch Demo",
-      "imageSrc": "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80",
+      "imageSrc": "/src/assets/hero.png",
       "imageAlt": "Apsonic motorcycles display"
     },
     "about": {
@@ -69,7 +69,7 @@
     },
     "products": {
       "id": "products",
-      "title": "Featured Apsonic Models",
+      "title": "Featured Models",
       "products": [
         {
           "id": "ap150-7",
@@ -375,6 +375,6 @@
       "copyright": "© 2026 GreenRide Apsonic. All rights reserved."
     }
   },
-  "updatedAt": "2026-03-18T12:28:41.285Z",
+  "updatedAt": "2026-03-18T12:49:37.072Z",
   "publishedAt": "2026-03-18T12:28:39.641Z"
 }
