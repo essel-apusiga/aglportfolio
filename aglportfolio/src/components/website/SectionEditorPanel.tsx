@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { FiChevronDown, FiChevronUp, FiPlus, FiSave, FiTrash2 } from 'react-icons/fi'
 import { Button } from '../../sharedcomponents'
 import { saveCmsSection, saveNavLinks, saveSectionOrder, saveSiteConfig } from '../../utils/api'
 import type {
@@ -33,8 +34,8 @@ function Field({
   children: React.ReactNode
 }) {
   return (
-    <label className="sep-field">
-      <span className="sep-field__label">{label}</span>
+    <label className="grid gap-1.5">
+      <span className="text-xs font-bold uppercase tracking-wide text-emerald-700">{label}</span>
       {children}
     </label>
   )
@@ -50,15 +51,15 @@ function ImageField({
   onChange: (v: string) => void
 }) {
   return (
-    <div className="sep-field">
-      <span className="sep-field__label">{label}</span>
+    <div className="grid gap-1.5">
+      <span className="text-xs font-bold uppercase tracking-wide text-emerald-700">{label}</span>
       {value && (
-        <div className="sep-img-preview">
-          <img src={value} alt="" />
+        <div className="aspect-[16/7] overflow-hidden rounded-md border border-emerald-200 bg-emerald-50">
+          <img src={value} alt="" className="h-full w-full object-cover" />
         </div>
       )}
       <input
-        className="sep-input"
+        className="w-full rounded-md border border-emerald-200 bg-white px-3 py-2 text-sm text-emerald-950 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Paste image URL…"
@@ -78,7 +79,7 @@ function Textarea({
 }) {
   return (
     <textarea
-      className="sep-input sep-textarea"
+      className="min-h-16 w-full resize-y rounded-md border border-emerald-200 bg-white px-3 py-2 text-sm text-emerald-950 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
       value={value}
       rows={rows}
       onChange={(e) => onChange(e.target.value)}
@@ -88,7 +89,11 @@ function Textarea({
 
 function Input({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   return (
-    <input className="sep-input" value={value} onChange={(e) => onChange(e.target.value)} />
+    <input
+      className="w-full rounded-md border border-emerald-200 bg-white px-3 py-2 text-sm text-emerald-950 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+    />
   )
 }
 
@@ -100,9 +105,10 @@ function SaveBar({
   onSave: () => void
 }) {
   return (
-    <div className="sep-save-bar">
-      <Button onClick={onSave} disabled={isSaving}>
-        {isSaving ? 'Saving…' : '💾 Save to Backend'}
+    <div className="mt-1 border-t border-emerald-100 pt-3">
+      <Button onClick={onSave} disabled={isSaving} className="inline-flex items-center gap-2">
+        <FiSave className="h-4 w-4" />
+        {isSaving ? 'Saving…' : 'Save to Backend'}
       </Button>
     </div>
   )
@@ -110,11 +116,15 @@ function SaveBar({
 
 function PanelHeading({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
-    <div className="sep-heading">
-      <h2>{title}</h2>
-      {subtitle && <p>{subtitle}</p>}
+    <div className="mb-1 border-b border-emerald-200 pb-3">
+      <h2 className="text-base font-black text-emerald-950">{title}</h2>
+      {subtitle && <p className="mt-1 text-xs text-emerald-700">{subtitle}</p>}
     </div>
   )
+}
+
+function createId(prefix: string) {
+  return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
 }
 
 // ── Header editor ─────────────────────────────────────────────────────────
@@ -138,8 +148,26 @@ function HeaderEditor({
     }
   }
 
+  function addNavLink() {
+    setDraft({
+      ...draft,
+      navLinks: [...draft.navLinks, { id: createId('nav'), label: 'New Link', href: '#new' }],
+    })
+  }
+
+  function removeNavLink(index: number) {
+    if (draft.navLinks.length <= 1) {
+      return
+    }
+
+    setDraft({
+      ...draft,
+      navLinks: draft.navLinks.filter((_, i) => i !== index),
+    })
+  }
+
   return (
-    <div className="sep-body">
+    <div className="space-y-4 p-4">
       <PanelHeading title="Header & Navigation" subtitle="Brand name, CTA label, and nav link labels." />
 
       <Field label="Brand name">
@@ -152,10 +180,29 @@ function HeaderEditor({
         <Input value={draft.ctaLabel} onChange={(v) => setDraft({ ...draft, ctaLabel: v })} />
       </Field>
 
-      <div className="sep-card-stack">
-        <p className="sep-sub-heading">Navigation links</p>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-700">Navigation links</p>
+          <Button size="sm" variant="ghost" onClick={addNavLink} className="inline-flex items-center gap-1">
+            <FiPlus className="h-4 w-4" />
+            Add Link
+          </Button>
+        </div>
         {draft.navLinks.map((link, index) => (
-          <div key={link.id} className="sep-card">
+          <div key={link.id} className="space-y-3 rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-700">Link {index + 1}</p>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => removeNavLink(index)}
+                disabled={draft.navLinks.length <= 1}
+                className="inline-flex items-center gap-1 text-rose-700 hover:bg-rose-50 hover:text-rose-800"
+              >
+                <FiTrash2 className="h-4 w-4" />
+                Remove
+              </Button>
+            </div>
             <Field label="Label">
               <Input
                 value={link.label}
@@ -209,7 +256,7 @@ function HeroEditor({
   }
 
   return (
-    <div className="sep-body">
+    <div className="space-y-4 p-4">
       <PanelHeading title="Hero Banner" subtitle="Main headline, description, CTAs, and hero image." />
 
       <Field label="Badge text">
@@ -286,8 +333,26 @@ function AboutEditor({
     }
   }
 
+  function addStat() {
+    setDraft({
+      ...draft,
+      stats: [...draft.stats, { id: createId('stat'), label: 'New stat', value: '0' }],
+    })
+  }
+
+  function removeStat(index: number) {
+    if (draft.stats.length <= 1) {
+      return
+    }
+
+    setDraft({
+      ...draft,
+      stats: draft.stats.filter((_, i) => i !== index),
+    })
+  }
+
   return (
-    <div className="sep-body">
+    <div className="space-y-4 p-4">
       <PanelHeading title="About Section" subtitle="Company overview text and key stats." />
       <Field label="Section title">
         <Input value={draft.title} onChange={(v) => setDraft({ ...draft, title: v })} />
@@ -300,10 +365,29 @@ function AboutEditor({
         />
       </Field>
 
-      <div className="sep-card-stack">
-        <p className="sep-sub-heading">Stats</p>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-700">Stats</p>
+          <Button size="sm" variant="ghost" onClick={addStat} className="inline-flex items-center gap-1">
+            <FiPlus className="h-4 w-4" />
+            Add Stat
+          </Button>
+        </div>
         {draft.stats.map((stat, index) => (
-          <div key={stat.id} className="sep-card">
+          <div key={stat.id} className="space-y-3 rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-700">Stat {index + 1}</p>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => removeStat(index)}
+                disabled={draft.stats.length <= 1}
+                className="inline-flex items-center gap-1 text-rose-700 hover:bg-rose-50 hover:text-rose-800"
+              >
+                <FiTrash2 className="h-4 w-4" />
+                Remove
+              </Button>
+            </div>
             <Field label="Value">
               <Input value={stat.value} onChange={(v) => updateStat(index, { value: v })} />
             </Field>
@@ -347,17 +431,63 @@ function ProductsEditor({
     }
   }
 
+  function addProduct() {
+    setDraft({
+      ...draft,
+      products: [
+        ...draft.products,
+        {
+          id: createId('product'),
+          name: 'New Product',
+          category: 'Category',
+          description: 'Describe this product.',
+          price: '$0',
+          imageSrc: '',
+        },
+      ],
+    })
+  }
+
+  function removeProduct(index: number) {
+    if (draft.products.length <= 1) {
+      return
+    }
+
+    setDraft({
+      ...draft,
+      products: draft.products.filter((_, i) => i !== index),
+    })
+  }
+
   return (
-    <div className="sep-body">
+    <div className="space-y-4 p-4">
       <PanelHeading title="Products Section" subtitle="Section title and individual product cards." />
       <Field label="Section title">
         <Input value={draft.title} onChange={(v) => setDraft({ ...draft, title: v })} />
       </Field>
 
-      <div className="sep-card-stack">
+      <div className="space-y-3">
+        <div className="flex items-center justify-end">
+          <Button size="sm" variant="ghost" onClick={addProduct} className="inline-flex items-center gap-1">
+            <FiPlus className="h-4 w-4" />
+            Add Product
+          </Button>
+        </div>
         {draft.products.map((product, index) => (
-          <div key={product.id} className="sep-card">
-            <p className="sep-card__label">Product {index + 1}</p>
+          <div key={product.id} className="space-y-3 rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-700">Product {index + 1}</p>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => removeProduct(index)}
+                disabled={draft.products.length <= 1}
+                className="inline-flex items-center gap-1 text-rose-700 hover:bg-rose-50 hover:text-rose-800"
+              >
+                <FiTrash2 className="h-4 w-4" />
+                Remove
+              </Button>
+            </div>
             <Field label="Name">
               <Input value={product.name} onChange={(v) => updateProduct(index, { name: v })} />
             </Field>
@@ -419,8 +549,34 @@ function TeamEditor({
     }
   }
 
+  function addMember() {
+    setDraft({
+      ...draft,
+      members: [
+        ...draft.members,
+        {
+          id: createId('member'),
+          name: 'New Team Member',
+          role: 'Role',
+          imageSrc: '',
+        },
+      ],
+    })
+  }
+
+  function removeMember(index: number) {
+    if (draft.members.length <= 1) {
+      return
+    }
+
+    setDraft({
+      ...draft,
+      members: draft.members.filter((_, i) => i !== index),
+    })
+  }
+
   return (
-    <div className="sep-body">
+    <div className="space-y-4 p-4">
       <PanelHeading title="Team Section" subtitle="Section title, description, and member cards." />
       <Field label="Section title">
         <Input value={draft.title} onChange={(v) => setDraft({ ...draft, title: v })} />
@@ -433,10 +589,28 @@ function TeamEditor({
         />
       </Field>
 
-      <div className="sep-card-stack">
+      <div className="space-y-3">
+        <div className="flex items-center justify-end">
+          <Button size="sm" variant="ghost" onClick={addMember} className="inline-flex items-center gap-1">
+            <FiPlus className="h-4 w-4" />
+            Add Member
+          </Button>
+        </div>
         {draft.members.map((member, index) => (
-          <div key={member.id} className="sep-card">
-            <p className="sep-card__label">Member {index + 1}</p>
+          <div key={member.id} className="space-y-3 rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-700">Member {index + 1}</p>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => removeMember(index)}
+                disabled={draft.members.length <= 1}
+                className="inline-flex items-center gap-1 text-rose-700 hover:bg-rose-50 hover:text-rose-800"
+              >
+                <FiTrash2 className="h-4 w-4" />
+                Remove
+              </Button>
+            </div>
             <Field label="Name">
               <Input value={member.name} onChange={(v) => updateMember(index, { name: v })} />
             </Field>
@@ -479,7 +653,7 @@ function ContactEditor({
   }
 
   return (
-    <div className="sep-body">
+    <div className="space-y-4 p-4">
       <PanelHeading title="Location & Contact" subtitle="Address, contact details, map, and form text." />
       <Field label="Section title">
         <Input value={draft.title} onChange={(v) => setDraft({ ...draft, title: v })} />
@@ -498,8 +672,8 @@ function ContactEditor({
         />
       </Field>
 
-      <div className="sep-card">
-        <p className="sep-card__label">Contact details</p>
+      <div className="space-y-3 rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+        <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-700">Contact details</p>
         <Field label="Address lines (first)">
           <Input
             value={draft.contactDetails.addressLines[0] ?? ''}
@@ -552,8 +726,8 @@ function ContactEditor({
         </Field>
       </div>
 
-      <div className="sep-card">
-        <p className="sep-card__label">Contact form</p>
+      <div className="space-y-3 rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+        <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-700">Contact form</p>
         <Field label="Form heading">
           <Input
             value={draft.form.title}
@@ -614,8 +788,26 @@ function FooterEditor({
     }
   }
 
+  function addColumn() {
+    setDraft({
+      ...draft,
+      columns: [...draft.columns, { id: createId('column'), title: 'New Column', links: [] }],
+    })
+  }
+
+  function removeColumn(index: number) {
+    if (draft.columns.length <= 1) {
+      return
+    }
+
+    setDraft({
+      ...draft,
+      columns: draft.columns.filter((_, i) => i !== index),
+    })
+  }
+
   return (
-    <div className="sep-body">
+    <div className="space-y-4 p-4">
       <PanelHeading title="Footer" subtitle="Brand, description, link columns, and copyright." />
       <Field label="Brand name">
         <Input value={draft.brandName} onChange={(v) => setDraft({ ...draft, brandName: v })} />
@@ -631,10 +823,29 @@ function FooterEditor({
         <Input value={draft.copyright} onChange={(v) => setDraft({ ...draft, copyright: v })} />
       </Field>
 
-      <div className="sep-card-stack">
-        <p className="sep-sub-heading">Link columns</p>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-700">Link columns</p>
+          <Button size="sm" variant="ghost" onClick={addColumn} className="inline-flex items-center gap-1">
+            <FiPlus className="h-4 w-4" />
+            Add Column
+          </Button>
+        </div>
         {draft.columns.map((col, colIndex) => (
-          <div key={col.id} className="sep-card">
+          <div key={col.id} className="space-y-3 rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-700">Column {colIndex + 1}</p>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => removeColumn(colIndex)}
+                disabled={draft.columns.length <= 1}
+                className="inline-flex items-center gap-1 text-rose-700 hover:bg-rose-50 hover:text-rose-800"
+              >
+                <FiTrash2 className="h-4 w-4" />
+                Remove
+              </Button>
+            </div>
             <Field label="Column title">
               <Input
                 value={col.title}
@@ -703,32 +914,32 @@ function OrderEditor({
   }
 
   return (
-    <div className="sep-body">
+    <div className="space-y-4 p-4">
       <PanelHeading
         title="Section Order"
         subtitle="Drag the order in which sections appear on the live site."
       />
-      <div className="sep-card-stack">
+      <div className="space-y-2">
         {order.map((key, index) => (
-          <div key={key} className="sep-order-row">
-            <span className="sep-order-num">{index + 1}</span>
-            <span className="sep-order-label">{SECTION_LABEL[key]}</span>
-            <div className="sep-order-btns">
+          <div key={key} className="flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-700 text-xs font-extrabold text-white">{index + 1}</span>
+            <span className="flex-1 text-sm font-semibold text-emerald-950">{SECTION_LABEL[key]}</span>
+            <div className="flex gap-1">
               <button
-                className="sep-move-btn"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-emerald-200 bg-white text-emerald-700 transition hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-40"
                 disabled={index === 0}
                 onClick={() => move(index, 'up')}
                 title="Move up"
               >
-                ▲
+                <FiChevronUp className="h-4 w-4" />
               </button>
               <button
-                className="sep-move-btn"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-emerald-200 bg-white text-emerald-700 transition hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-40"
                 disabled={index === order.length - 1}
                 onClick={() => move(index, 'down')}
                 title="Move down"
               >
-                ▼
+                <FiChevronDown className="h-4 w-4" />
               </button>
             </div>
           </div>
@@ -841,7 +1052,7 @@ export function SectionEditorPanel({ activeSection, config, onConfigChange, onTo
       return <OrderEditor config={config} onSave={handleSaveOrder} />
     default:
       return (
-        <div className="sep-body">
+        <div className="space-y-4 p-4">
           <PanelHeading title="Select a section" subtitle="Click a section in the left sidebar to edit it." />
         </div>
       )

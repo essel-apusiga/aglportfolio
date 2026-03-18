@@ -10,7 +10,6 @@ import {
   TeamSection,
 } from '../sections'
 import type { CompanyWebsiteContent, SectionKey } from './types'
-import './company-website.css'
 
 type CompanyWebsiteProps = {
   content: CompanyWebsiteContent
@@ -60,10 +59,10 @@ export function CompanyWebsite({ content }: CompanyWebsiteProps) {
   }
 
   return (
-    <main className="company-page">
+    <main className="min-h-screen w-full bg-white text-emerald-950">
       <HeaderSection content={content.header} activeHref={activeHref} />
       {content.sectionOrder.map((sectionKey) => (
-        <section key={sectionKey}>{sectionMap[sectionKey]}</section>
+        <section key={sectionKey} className="w-full">{sectionMap[sectionKey]}</section>
       ))}
       <FooterSection content={content.footer} />
     </main>

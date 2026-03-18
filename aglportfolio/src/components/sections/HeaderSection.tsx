@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { FiMenu, FiX } from 'react-icons/fi'
 import { Badge, Button } from '../../sharedcomponents'
 import type { HeaderContent } from '../website/types'
 
@@ -7,27 +9,68 @@ type HeaderSectionProps = {
 }
 
 export function HeaderSection({ content, activeHref }: HeaderSectionProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   return (
-    <header className="company-header" data-purpose="site-navigation">
-      <div className="company-header__brand">
-        <Badge tone="success">{content.badge}</Badge>
-        <strong>{content.brandName}</strong>
+    <header className="sticky top-0 z-50 border-b border-emerald-100 bg-white/95 backdrop-blur" data-purpose="site-navigation">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3 md:px-8">
+        <div className="flex items-center gap-3">
+          <Badge tone="success">{content.badge}</Badge>
+          <strong className="text-lg font-bold text-emerald-950">{content.brandName}</strong>
+        </div>
+
+        <button
+          className="inline-flex rounded-lg border border-emerald-200 p-2 text-emerald-800 md:hidden"
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+          aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isMenuOpen}
+          aria-controls="main-nav"
+        >
+          {isMenuOpen ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
+        </button>
+
+        <nav id="main-nav" className="hidden items-center gap-2 md:flex" aria-label="Primary navigation">
+          {content.navLinks.map((link) => (
+            <a
+              key={link.id}
+              href={link.href}
+              className={
+                activeHref === link.href
+                  ? 'rounded-lg bg-emerald-700 px-3 py-2 text-sm font-semibold text-white'
+                  : 'rounded-lg px-3 py-2 text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50 hover:text-emerald-900'
+              }
+              aria-current={activeHref === link.href ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
+        <Button size="sm" className="hidden md:inline-flex">{content.ctaLabel}</Button>
       </div>
 
-      <nav className="company-header__nav" aria-label="Primary navigation">
-        {content.navLinks.map((link) => (
-          <a
-            key={link.id}
-            href={link.href}
-            className={activeHref === link.href ? 'company-header__nav-link is-active' : 'company-header__nav-link'}
-            aria-current={activeHref === link.href ? 'page' : undefined}
-          >
-            {link.label}
-          </a>
-        ))}
-      </nav>
-
-      <Button size="sm">{content.ctaLabel}</Button>
+      {isMenuOpen && (
+        <div className="border-t border-emerald-100 bg-white md:hidden">
+          <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-4 py-3">
+            {content.navLinks.map((link) => (
+              <a
+                key={link.id}
+                href={link.href}
+                onClick={() => setIsMenuOpen(false)}
+                className={
+                  activeHref === link.href
+                    ? 'rounded-lg bg-emerald-700 px-3 py-2 text-sm font-semibold text-white'
+                    : 'rounded-lg px-3 py-2 text-sm font-semibold text-emerald-800 transition hover:bg-emerald-50'
+                }
+                aria-current={activeHref === link.href ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            ))}
+            <Button size="sm" className="mt-1 w-full">{content.ctaLabel}</Button>
+          </div>
+        </div>
+      )}
     </header>
   )
 }

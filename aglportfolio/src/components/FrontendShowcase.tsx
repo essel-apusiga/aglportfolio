@@ -25,7 +25,9 @@ export function FrontendShowcase() {
   return (
     <>
       <CompanyWebsite content={content} />
-      <div className="config-status">{statusMessage}</div>
+      <div className="fixed bottom-4 right-4 rounded-full bg-emerald-900 px-4 py-2 text-xs font-semibold text-emerald-50 shadow-lg shadow-emerald-900/30">
+        {statusMessage}
+      </div>
     </>
   )
 }

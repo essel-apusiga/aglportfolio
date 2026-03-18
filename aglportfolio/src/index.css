@@ -1,33 +1,6 @@
-:root {
-  --page-bg: #f5fdf8;
-  --page-bg-deep: #e7f6ee;
-  --panel-bg: rgba(255, 255, 255, 0.88);
-  --panel-bg-strong: rgba(246, 255, 250, 0.96);
-  --panel-border: rgba(17, 102, 62, 0.13);
-  --heading-color: #0a4a2d;
-  --body-text: #1d5a3d;
-  --muted-text: #3f6f58;
-  --accent-color: #0f8f57;
-  --accent-strong: #0a7446;
-  --badge-bg: rgba(15, 143, 87, 0.14);
-  --shadow-color: rgba(10, 83, 50, 0.14);
-  --sans: 'Segoe UI', 'Trebuchet MS', Verdana, sans-serif;
-  --heading: Georgia, 'Times New Roman', serif;
-  color: var(--body-text);
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 35%),
-    radial-gradient(circle at bottom right, rgba(15, 143, 87, 0.12), transparent 28%),
-    linear-gradient(145deg, var(--page-bg), var(--page-bg-deep));
-  font: 16px/1.6 var(--sans);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-}
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 html {
   scroll-behavior: smooth;
@@ -35,68 +8,22 @@ html {
 
 body {
   margin: 0;
-  min-width: 320px;
+  min-width: 20rem;
+  background-color: rgb(236 253 245);
+  color: rgb(6 78 59);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background-image:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(15, 143, 87, 0.12), transparent 28%);
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px);
-  background-size: 32px 32px;
-  opacity: 0.35;
-  pointer-events: none;
+* {
+  box-sizing: border-box;
 }
 
 #root {
-  width: 100%;
-  margin: 0;
   min-height: 100vh;
-}
-
-a {
-  color: inherit;
-}
-
-h1,
-h2,
-p {
-  margin: 0;
-}
-
-h1,
-h2 {
-  color: var(--heading-color);
-  font-family: var(--heading);
-  font-weight: 700;
-  line-height: 1.05;
-}
-
-h1 {
-  margin-bottom: 1rem;
-  font-size: clamp(2.1rem, 4.3vw, 2.9rem);
-  letter-spacing: -0.03em;
-}
-
-h2 {
-  margin-bottom: 0.65rem;
-  font-size: clamp(1.25rem, 2.5vw, 1.7rem);
-}
-
-h3 {
-  margin: 0;
-  color: var(--heading-color);
-  font-family: var(--heading);
-}
-
-p {
-  color: var(--body-text);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  width: 100%;
 }
