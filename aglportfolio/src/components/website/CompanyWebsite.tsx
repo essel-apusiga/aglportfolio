@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import {
   AboutSection,
+  CustomerServiceSection,
   FooterSection,
   HeaderSection,
   HeroSection,
@@ -64,6 +65,7 @@ export function CompanyWebsite({ content }: CompanyWebsiteProps) {
       {content.sectionOrder.map((sectionKey) => (
         <section key={sectionKey} className="w-full">{sectionMap[sectionKey]}</section>
       ))}
+      <CustomerServiceSection />
       <FooterSection content={content.footer} />
     </main>
   )

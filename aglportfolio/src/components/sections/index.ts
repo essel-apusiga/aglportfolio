@@ -1,4 +1,5 @@
 export { AboutSection } from './AboutSection'
+export { CustomerServiceSection } from './CustomerServiceSection'
 export { FooterSection } from './FooterSection'
 export { HeaderSection } from './HeaderSection'
 export { HeroSection } from './HeroSection'

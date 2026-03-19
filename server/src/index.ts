@@ -2,6 +2,8 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import { isContactEmailConfigured, sendContactEmail, validateContactMessage } from './contactEmail';
+import { listContactMessages, saveContactMessage } from './contactMessages';
+import { listReviews, saveReview, validateReview } from './reviews';
 import {
   getDraftSiteConfig,
   getSiteConfig,
@@ -63,7 +65,11 @@ async function ensureCmsStoreReady() {
 }
 
 app.use('/api', async (req, res, next) => {
-  if (req.path === '/health' || req.path === '/contact') {
+  if (
+    req.path === '/health' ||
+    req.path === '/contact' ||
+    req.path.startsWith('/reviews')
+  ) {
     next();
     return;
   }
@@ -167,17 +173,55 @@ app.post('/api/contact', async (req, res) => {
     return;
   }
 
-  if (!isContactEmailConfigured()) {
-    res.status(503).json({ error: 'Contact email service is unavailable.' });
-    return;
+  let emailSent = false;
+
+  try {
+    if (isContactEmailConfigured()) {
+      await sendContactEmail(req.body);
+      emailSent = true;
+    }
+  } catch (error) {
+    console.error('Failed to send contact email (message still saved).', error);
   }
 
   try {
-    await sendContactEmail(req.body);
-    res.status(202).json({ success: true, message: 'Your message has been sent.' });
+    await saveContactMessage(req.body, emailSent);
   } catch (error) {
-    console.error('Failed to send contact email.', error);
-    res.status(502).json({ error: 'Failed to send message right now.' });
+    console.error('Failed to save contact message to database.', error);
+    res.status(500).json({ error: 'Failed to save your message. Please try again.' });
+    return;
+  }
+
+  res.status(202).json({ success: true, message: "Your message has been received. We'll get back to you soon!" });
+});
+
+// Public: GET customer reviews (paginated)
+app.get('/api/reviews', async (req, res) => {
+  const limit = Math.min(Number(req.query.limit) || 20, 100);
+  const skip = Math.max(Number(req.query.skip) || 0, 0);
+  try {
+    const result = await listReviews(limit, skip);
+    res.json(result);
+  } catch (error) {
+    console.error('Failed to fetch reviews.', error);
+    res.status(500).json({ error: 'Failed to fetch reviews.' });
+  }
+});
+
+// Public: POST a new customer review
+app.post('/api/reviews', async (req, res) => {
+  if (!validateReview(req.body)) {
+    res.status(400).json({
+      error: 'Invalid review. Rating (1–5) is required. Name and comment are optional (max 120 / 2000 chars).',
+    });
+    return;
+  }
+  try {
+    const saved = await saveReview(req.body);
+    res.status(201).json({ success: true, review: saved });
+  } catch (error) {
+    console.error('Failed to save review.', error);
+    res.status(500).json({ error: 'Failed to save your review. Please try again.' });
   }
 });
 
@@ -219,6 +263,19 @@ app.get('/api/cms/config', (_req, res) => {
     config: getDraftSiteConfig(),
     meta: getSiteStateMeta(),
   });
+});
+
+// CMS: list submitted contact messages (admin)
+app.get('/api/cms/contacts', async (req, res) => {
+  const limit = Math.min(Number(req.query.limit) || 50, 200);
+  const skip = Math.max(Number(req.query.skip) || 0, 0);
+  try {
+    const result = await listContactMessages(limit, skip);
+    res.json(result);
+  } catch (error) {
+    console.error('Failed to list contact messages.', error);
+    res.status(500).json({ error: 'Failed to fetch contact messages.' });
+  }
 });
 
 app.get('/api/cms/state', (_req, res) => {

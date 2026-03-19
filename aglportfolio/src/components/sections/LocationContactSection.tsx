@@ -183,7 +183,7 @@ export function LocationContactSection({ content }: LocationContactSectionProps)
               {feedback.text}
             </p>
           )}
-          <Button disabled={!canSubmit}>{isSubmitting ? 'Sending...' : content.form.submitLabel}</Button>
+          <Button type="submit" disabled={!canSubmit}>{isSubmitting ? 'Sending...' : content.form.submitLabel}</Button>
         </form>
       </div>
     </section>

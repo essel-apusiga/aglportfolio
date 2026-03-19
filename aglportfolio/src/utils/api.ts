@@ -69,6 +69,29 @@ type ContactMessageResponse = {
   message: string
 }
 
+export type ReviewInput = {
+  rating: number
+  reviewerName?: string
+  staffName?: string
+  comment?: string
+}
+
+export type StoredReview = {
+  _id: string
+  rating: number
+  reviewerName: string | null
+  staffName: string | null
+  comment: string | null
+  submittedAt: string
+}
+
+export type ReviewsResponse = {
+  reviews: StoredReview[]
+  total: number
+  averageRating: number | null
+  ratingCounts: Array<{ _id: number; count: number }>
+}
+
 export type SiteSectionName =
   | 'header'
   | 'home'
@@ -290,4 +313,31 @@ export async function sendContactMessage(payload: ContactMessageInput): Promise<
   }
 
   return response.json() as Promise<ContactMessageResponse>
+}
+
+export async function fetchReviews(limit = 20, skip = 0): Promise<ReviewsResponse> {
+  const response = await fetch(apiUrl(`/api/reviews?limit=${limit}&skip=${skip}`))
+  if (!response.ok) {
+    throw new Error(`Failed to fetch reviews: ${response.status}`)
+  }
+  return response.json() as Promise<ReviewsResponse>
+}
+
+export async function submitReview(payload: ReviewInput): Promise<{ success: boolean; review: StoredReview }> {
+  const response = await fetch(apiUrl('/api/reviews'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  if (!response.ok) {
+    let serverMessage = `Failed to submit review: ${response.status}`
+    try {
+      const body = (await response.json()) as { error?: string; message?: string }
+      serverMessage = body.error || body.message || serverMessage
+    } catch {
+      // keep fallback
+    }
+    throw new Error(serverMessage)
+  }
+  return response.json() as Promise<{ success: boolean; review: StoredReview }>
 }
