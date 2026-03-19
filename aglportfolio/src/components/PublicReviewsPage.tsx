@@ -25,6 +25,16 @@ export function PublicReviewsPage() {
             <span className="rounded-full bg-white px-4 py-2 shadow-sm shadow-emerald-900/5">Optional staff tagging</span>
             <span className="rounded-full bg-white px-4 py-2 shadow-sm shadow-emerald-900/5">Takes under 1 minute</span>
           </div>
+          <div className="pt-2">
+            <a
+              href="#review-submit-form"
+              aria-label="Jump to review form"
+              className="group inline-flex flex-col items-center gap-1 rounded-full border border-emerald-200 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-emerald-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+            >
+              <span>Jump to Form</span>
+              <span className="text-base leading-none transition-transform group-hover:translate-y-0.5">↓</span>
+            </a>
+          </div>
         </div>
       </section>
       <CustomerServiceSection />

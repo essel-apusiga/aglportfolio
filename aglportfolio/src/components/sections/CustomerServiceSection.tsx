@@ -210,8 +210,9 @@ function SubmitForm({ onSubmitted, teamMembers, teamMembersLoading }: SubmitForm
 
   return (
     <form
+      id="review-submit-form"
       onSubmit={handleSubmit}
-      className="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-6 shadow-sm"
+      className="scroll-mt-24 rounded-2xl border border-emerald-200 bg-emerald-50/60 p-6 shadow-sm"
     >
       <h3 className="text-xl font-black text-emerald-950">Share Your Experience</h3>
       <p className="mt-1 text-sm text-emerald-700">
