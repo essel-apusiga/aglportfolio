@@ -29,7 +29,12 @@ const API_BASE_URL = normalizeApiBaseUrl(RAW_API_BASE_URL)
 
 function apiUrl(path: string) {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`
-  return API_BASE_URL ? `${API_BASE_URL}${normalizedPath}` : normalizedPath
+
+  if (!API_BASE_URL) {
+    return normalizedPath
+  }
+
+  return new URL(normalizedPath, `${API_BASE_URL}/`).toString()
 }
 
 type CmsMeta = {
