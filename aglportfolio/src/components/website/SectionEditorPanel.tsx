@@ -24,6 +24,34 @@ type Props = {
   onToast: (text: string, type: 'info' | 'success' | 'error') => void
 }
 
+const MAX_IMAGE_FILE_SIZE_BYTES = 4 * 1024 * 1024
+
+function formatFileSize(sizeInBytes: number) {
+  if (sizeInBytes < 1024 * 1024) {
+    return `${Math.round(sizeInBytes / 1024)} KB`
+  }
+
+  return `${(sizeInBytes / (1024 * 1024)).toFixed(1)} MB`
+}
+
+function readFileAsDataUrl(file: File) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
+
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result)
+        return
+      }
+
+      reject(new Error('Failed to read the selected image.'))
+    }
+
+    reader.onerror = () => reject(new Error('Failed to read the selected image.'))
+    reader.readAsDataURL(file)
+  })
+}
+
 // ── Shared helpers ────────────────────────────────────────────────────────
 
 function Field({
@@ -50,6 +78,37 @@ function ImageField({
   value: string
   onChange: (v: string) => void
 }) {
+  const [status, setStatus] = useState<string>('')
+
+  async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0]
+    if (!file) {
+      return
+    }
+
+    if (!file.type.startsWith('image/')) {
+      setStatus('Please select a valid image file.')
+      event.target.value = ''
+      return
+    }
+
+    if (file.size > MAX_IMAGE_FILE_SIZE_BYTES) {
+      setStatus(`Image is too large. Use a file smaller than ${formatFileSize(MAX_IMAGE_FILE_SIZE_BYTES)}.`)
+      event.target.value = ''
+      return
+    }
+
+    try {
+      const dataUrl = await readFileAsDataUrl(file)
+      onChange(dataUrl)
+      setStatus(`Uploaded ${file.name} (${formatFileSize(file.size)}). Image will be saved to the database when you save this section.`)
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Failed to process the selected image.')
+    } finally {
+      event.target.value = ''
+    }
+  }
+
   return (
     <div className="grid gap-1.5">
       <span className="text-xs font-bold uppercase tracking-wide text-emerald-700">{label}</span>
@@ -58,12 +117,30 @@ function ImageField({
           <img src={value} alt="" className="h-full w-full object-cover" />
         </div>
       )}
-      <input
-        className="w-full rounded-md border border-emerald-200 bg-white px-3 py-2 text-sm text-emerald-950 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="Paste image URL…"
-      />
+      <div className="rounded-md border border-dashed border-emerald-300 bg-white p-3">
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(event) => void handleFileChange(event)}
+          className="block w-full text-sm text-emerald-900 file:mr-3 file:rounded-md file:border-0 file:bg-emerald-700 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-emerald-800"
+        />
+        <p className="mt-2 text-xs text-emerald-700">
+          Upload JPG, PNG, WEBP, or SVG. The file is converted and stored in MongoDB when you save.
+        </p>
+        {status && <p className="mt-2 text-xs font-medium text-emerald-800">{status}</p>}
+        {value && (
+          <button
+            type="button"
+            onClick={() => {
+              onChange('')
+              setStatus('Image removed. Save this section to update the database.')
+            }}
+            className="mt-3 inline-flex items-center rounded-md border border-emerald-200 px-3 py-1.5 text-xs font-semibold text-emerald-800 transition hover:bg-emerald-50"
+          >
+            Remove image
+          </button>
+        )}
+      </div>
     </div>
   )
 }
@@ -292,7 +369,7 @@ function HeroEditor({
         />
       </Field>
       <ImageField
-        label="Hero image URL"
+        label="Hero image"
         value={draft.imageSrc}
         onChange={(v) => setDraft({ ...draft, imageSrc: v })}
       />
@@ -508,7 +585,7 @@ function ProductsEditor({
               <Input value={product.price} onChange={(v) => updateProduct(index, { price: v })} />
             </Field>
             <ImageField
-              label="Product image URL"
+              label="Product image"
               value={product.imageSrc}
               onChange={(v) => updateProduct(index, { imageSrc: v })}
             />
@@ -618,7 +695,7 @@ function TeamEditor({
               <Input value={member.role} onChange={(v) => updateMember(index, { role: v })} />
             </Field>
             <ImageField
-              label="Avatar URL"
+              label="Avatar image"
               value={member.imageSrc}
               onChange={(v) => updateMember(index, { imageSrc: v })}
             />
