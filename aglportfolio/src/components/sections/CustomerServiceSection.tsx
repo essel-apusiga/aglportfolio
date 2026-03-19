@@ -162,6 +162,15 @@ function SubmitForm({ onSubmitted, teamMembers, teamMembersLoading }: SubmitForm
       .slice(0, 8)
   }, [form.staffName, teamMembers])
 
+  const selectedTeamMember = useMemo(() => {
+    const normalized = form.staffName.trim().toLowerCase()
+    if (!normalized) {
+      return null
+    }
+
+    return teamMembers.find((member) => member.username.toLowerCase() === normalized) ?? null
+  }, [form.staffName, teamMembers])
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setRatingTouched(true)
@@ -256,10 +265,25 @@ function SubmitForm({ onSubmitted, teamMembers, teamMembersLoading }: SubmitForm
               setTimeout(() => setIsStaffDropdownOpen(false), 120)
             }}
             maxLength={120}
-            className={inputClass}
+            className={`${inputClass} pr-12`}
             aria-label="Search and select team member"
             autoComplete="off"
           />
+
+          {form.staffName.trim().length > 0 && (
+            <button
+              type="button"
+              aria-label="Clear team member"
+              onMouseDown={(event) => event.preventDefault()}
+              onClick={() => {
+                set('staffName', '')
+                setIsStaffDropdownOpen(false)
+              }}
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-emerald-200 bg-white px-2 py-0.5 text-xs font-bold uppercase text-emerald-700 transition hover:bg-emerald-50"
+            >
+              x
+            </button>
+          )}
 
           {!teamMembersLoading && isStaffDropdownOpen && filteredTeamMembers.length > 0 && (
             <div className="absolute z-20 mt-1 max-h-52 w-full overflow-y-auto rounded-xl border border-emerald-200 bg-white p-1 shadow-lg">
@@ -271,7 +295,9 @@ function SubmitForm({ onSubmitted, teamMembers, teamMembersLoading }: SubmitForm
                     set('staffName', member.username)
                     setIsStaffDropdownOpen(false)
                   }}
-                  className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-emerald-900 transition hover:bg-emerald-50"
+                  className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-emerald-900 transition hover:bg-emerald-50 ${
+                    selectedTeamMember?.id === member.id ? 'bg-emerald-50' : ''
+                  }`}
                 >
                   <span>{member.username}</span>
                   {member.role && <span className="text-xs text-emerald-600">{member.role.replace(/_/g, ' ')}</span>}
@@ -281,7 +307,7 @@ function SubmitForm({ onSubmitted, teamMembers, teamMembersLoading }: SubmitForm
           )}
         </div>
         <p className="mt-1 text-xs text-emerald-500">
-          Tag a specific team member to recognise great or improve poor service. {teamMembersLoading ? 'Syncing staff list...' : `${teamMembers.length} members available.`}
+          Tag a specific team member to recognise great or improve poor service. {teamMembersLoading ? 'Syncing staff list...' : `${teamMembers.length} members available.`} {selectedTeamMember ? `Selected: ${selectedTeamMember.username}.` : ''}
         </p>
       </div>
 
