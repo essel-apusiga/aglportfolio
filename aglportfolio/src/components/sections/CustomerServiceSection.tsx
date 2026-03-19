@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import { fetchReviews, submitReview } from '../../utils/api'
-import type { ReviewInput, StoredReview } from '../../utils/api'
+import { useEffect, useMemo, useState } from 'react'
+import { fetchPublicUsers, fetchReviews, submitReview } from '../../utils/api'
+import type { PublicUser, ReviewInput, StoredReview } from '../../utils/api'
 
 // ── Star Rating Widget ────────────────────────────────────────────────────────
 
@@ -129,9 +129,11 @@ type FormFeedback = { type: 'success' | 'error'; text: string }
 
 type SubmitFormProps = {
   onSubmitted: (review: StoredReview) => void
+  teamMembers: PublicUser[]
+  teamMembersLoading: boolean
 }
 
-function SubmitForm({ onSubmitted }: SubmitFormProps) {
+function SubmitForm({ onSubmitted, teamMembers, teamMembersLoading }: SubmitFormProps) {
   const [form, setForm] = useState<FormState>({
     rating: 0,
     reviewerName: '',
@@ -141,12 +143,24 @@ function SubmitForm({ onSubmitted }: SubmitFormProps) {
   const [ratingTouched, setRatingTouched] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [feedback, setFeedback] = useState<FormFeedback | null>(null)
+  const [isStaffDropdownOpen, setIsStaffDropdownOpen] = useState(false)
 
   const canSubmit = form.rating >= 1 && !isSubmitting
 
   function set<K extends keyof FormState>(field: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [field]: value }))
   }
+
+  const filteredTeamMembers = useMemo(() => {
+    const normalized = form.staffName.trim().toLowerCase()
+    if (!normalized) {
+      return teamMembers.slice(0, 8)
+    }
+
+    return teamMembers
+      .filter((member) => member.username.toLowerCase().includes(normalized))
+      .slice(0, 8)
+  }, [form.staffName, teamMembers])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -228,16 +242,46 @@ function SubmitForm({ onSubmitted }: SubmitFormProps) {
           Team Member Name{' '}
           <span className="font-normal text-emerald-500">(optional)</span>
         </label>
-        <input
-          type="text"
-          placeholder="Who served you today?"
-          value={form.staffName}
-          onChange={(e) => set('staffName', e.target.value)}
-          maxLength={120}
-          className={inputClass}
-        />
+        <div className="relative">
+          <input
+            type="text"
+            placeholder={teamMembersLoading ? 'Loading team members...' : 'Search staff name...'}
+            value={form.staffName}
+            onChange={(e) => {
+              set('staffName', e.target.value)
+              setIsStaffDropdownOpen(true)
+            }}
+            onFocus={() => setIsStaffDropdownOpen(true)}
+            onBlur={() => {
+              setTimeout(() => setIsStaffDropdownOpen(false), 120)
+            }}
+            maxLength={120}
+            className={inputClass}
+            aria-label="Search and select team member"
+            autoComplete="off"
+          />
+
+          {!teamMembersLoading && isStaffDropdownOpen && filteredTeamMembers.length > 0 && (
+            <div className="absolute z-20 mt-1 max-h-52 w-full overflow-y-auto rounded-xl border border-emerald-200 bg-white p-1 shadow-lg">
+              {filteredTeamMembers.map((member) => (
+                <button
+                  key={member.id}
+                  type="button"
+                  onClick={() => {
+                    set('staffName', member.username)
+                    setIsStaffDropdownOpen(false)
+                  }}
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-emerald-900 transition hover:bg-emerald-50"
+                >
+                  <span>{member.username}</span>
+                  {member.role && <span className="text-xs text-emerald-600">{member.role.replace(/_/g, ' ')}</span>}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
         <p className="mt-1 text-xs text-emerald-500">
-          Tag a specific team member to recognise great or improve poor service.
+          Tag a specific team member to recognise great or improve poor service. {teamMembersLoading ? 'Syncing staff list...' : `${teamMembers.length} members available.`}
         </p>
       </div>
 
@@ -309,6 +353,8 @@ export function CustomerServiceSection() {
   const [averageRating, setAverageRating] = useState<number | null>(null)
   const [ratingCounts, setRatingCounts] = useState<Array<{ _id: number; count: number }>>([])
   const [loading, setLoading] = useState(true)
+  const [teamMembers, setTeamMembers] = useState<PublicUser[]>([])
+  const [teamMembersLoading, setTeamMembersLoading] = useState(true)
   const [page, setPage] = useState(0)
   const pageSize = 6
 
@@ -330,6 +376,22 @@ export function CustomerServiceSection() {
   useEffect(() => {
     void loadReviews(page * pageSize)
   }, [page])
+
+  useEffect(() => {
+    async function loadTeamMembers() {
+      setTeamMembersLoading(true)
+      try {
+        const users = await fetchPublicUsers()
+        setTeamMembers(users)
+      } catch {
+        setTeamMembers([])
+      } finally {
+        setTeamMembersLoading(false)
+      }
+    }
+
+    void loadTeamMembers()
+  }, [])
 
   function handleNewReview(review: StoredReview) {
     setReviews((prev) => [review, ...prev.slice(0, pageSize - 1)])
@@ -443,7 +505,11 @@ export function CustomerServiceSection() {
 
         {/* Right: Submit form (sticky on desktop) */}
         <div className="lg:sticky lg:top-6 lg:self-start">
-          <SubmitForm onSubmitted={handleNewReview} />
+          <SubmitForm
+            onSubmitted={handleNewReview}
+            teamMembers={teamMembers}
+            teamMembersLoading={teamMembersLoading}
+          />
         </div>
       </div>
     </section>

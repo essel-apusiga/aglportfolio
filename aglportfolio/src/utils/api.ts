@@ -92,6 +92,12 @@ export type ReviewsResponse = {
   ratingCounts: Array<{ _id: number; count: number }>
 }
 
+export type PublicUser = {
+  id: string
+  username: string
+  role?: string
+}
+
 export type SiteSectionName =
   | 'header'
   | 'home'
@@ -340,4 +346,35 @@ export async function submitReview(payload: ReviewInput): Promise<{ success: boo
     throw new Error(serverMessage)
   }
   return response.json() as Promise<{ success: boolean; review: StoredReview }>
+}
+
+export async function fetchPublicUsers(): Promise<PublicUser[]> {
+  const response = await fetch('https://api.agl.business/api/auth/public/users')
+  if (!response.ok) {
+    throw new Error(`Failed to fetch public users: ${response.status}`)
+  }
+
+  const payload = (await response.json()) as {
+    data?: {
+      users?: Array<{
+        _id?: string
+        username?: string
+        role?: string
+        isActive?: boolean
+        isActve?: boolean
+      }>
+    }
+  }
+
+  const users = payload.data?.users ?? []
+
+  return users
+    .filter((user) => user.isActive !== false && user.isActve !== false)
+    .map((user) => ({
+      id: user._id ?? `${user.username ?? ''}-${user.role ?? ''}`,
+      username: (user.username ?? '').replace(/\s+/g, ' ').trim(),
+      role: user.role,
+    }))
+    .filter((user) => Boolean(user.id && user.username))
+    .sort((a, b) => a.username.localeCompare(b.username))
 }
