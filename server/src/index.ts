@@ -173,26 +173,36 @@ app.post('/api/contact', async (req, res) => {
     return;
   }
 
-  let emailSent = false;
+  let adminEmailSent = false;
+  let submitterNotified = false;
 
   try {
     if (isContactEmailConfigured()) {
-      await sendContactEmail(req.body);
-      emailSent = true;
+      const deliveryStatus = await sendContactEmail(req.body);
+      adminEmailSent = deliveryStatus.adminEmailSent;
+      submitterNotified = deliveryStatus.submitterNotified;
     }
   } catch (error) {
     console.error('Failed to send contact email (message still saved).', error);
   }
 
   try {
-    await saveContactMessage(req.body, emailSent);
+    await saveContactMessage(req.body, {
+      adminEmailSent,
+      submitterNotified,
+    });
   } catch (error) {
     console.error('Failed to save contact message to database.', error);
     res.status(500).json({ error: 'Failed to save your message. Please try again.' });
     return;
   }
 
-  res.status(202).json({ success: true, message: "Your message has been received. We'll get back to you soon!" });
+  res.status(202).json({
+    success: true,
+    message: "Your message has been received. We'll get back to you soon!",
+    adminEmailSent,
+    submitterNotified,
+  });
 });
 
 // Public: GET customer reviews (paginated)
@@ -275,6 +285,19 @@ app.get('/api/cms/contacts', async (req, res) => {
   } catch (error) {
     console.error('Failed to list contact messages.', error);
     res.status(500).json({ error: 'Failed to fetch contact messages.' });
+  }
+});
+
+// CMS alias: list submitted enquiries (same payload as /api/cms/contacts)
+app.get('/api/cms/enquiries', async (req, res) => {
+  const limit = Math.min(Number(req.query.limit) || 50, 200);
+  const skip = Math.max(Number(req.query.skip) || 0, 0);
+  try {
+    const result = await listContactMessages(limit, skip);
+    res.json(result);
+  } catch (error) {
+    console.error('Failed to list enquiries.', error);
+    res.status(500).json({ error: 'Failed to fetch enquiries.' });
   }
 });
 

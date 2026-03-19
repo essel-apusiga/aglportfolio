@@ -7,12 +7,13 @@ export type StoredContactMessage = {
   email: string
   message: string
   submittedAt: Date
-  emailSent: boolean
+  adminEmailSent: boolean
+  submitterNotified: boolean
 }
 
 export async function saveContactMessage(
   payload: { name: string; email: string; message: string },
-  emailSent: boolean,
+  emailStatus: { adminEmailSent: boolean; submitterNotified: boolean },
 ): Promise<StoredContactMessage> {
   const db = await getDb()
   const doc: Omit<StoredContactMessage, '_id'> = {
@@ -20,7 +21,8 @@ export async function saveContactMessage(
     email: payload.email.trim(),
     message: payload.message.trim(),
     submittedAt: new Date(),
-    emailSent,
+    adminEmailSent: emailStatus.adminEmailSent,
+    submitterNotified: emailStatus.submitterNotified,
   }
   const result = await db.collection<StoredContactMessage>('contactMessages').insertOne(doc)
   return { ...doc, _id: result.insertedId }
