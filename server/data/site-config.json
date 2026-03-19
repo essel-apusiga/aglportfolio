@@ -76,7 +76,6 @@
           "category": "Commuter",
           "name": "Apsonic AP150-7",
           "description": "Fuel-efficient and dependable for daily urban commuting with practical long-term maintenance costs.",
-          "price": "$1,450",
           "imageSrc": "https://images.unsplash.com/photo-1558981285-6f0c94958bb6?auto=format&fit=crop&w=1200&q=80"
         },
         {
@@ -84,7 +83,6 @@
           "category": "Dual Purpose",
           "name": "Apsonic AP200GY",
           "description": "Built for mixed road conditions and commercial routes that demand stronger suspension and reliability.",
-          "price": "$1,980",
           "imageSrc": "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80"
         },
         {
@@ -92,7 +90,6 @@
           "category": "Entry Series",
           "name": "Apsonic AP125-2",
           "description": "Lightweight model suited for new riders and city fleets focused on efficient delivery cycles.",
-          "price": "$1,200",
           "imageSrc": "https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&w=1200&q=80"
         }
       ]
@@ -145,7 +142,7 @@
       },
       "form": {
         "title": "Get in Touch",
-        "description": "Have an inquiry about pricing, fleet options, or service plans? Send us a message.",
+        "description": "Have an inquiry about fleet options or service plans? Send us a message.",
         "submitLabel": "Send Message"
       }
     },
@@ -264,7 +261,6 @@
           "category": "Commuter",
           "name": "Apsonic AP150-7",
           "description": "Fuel-efficient and dependable for daily urban commuting with practical long-term maintenance costs.",
-          "price": "$1,450",
           "imageSrc": "https://images.unsplash.com/photo-1558981285-6f0c94958bb6?auto=format&fit=crop&w=1200&q=80"
         },
         {
@@ -272,7 +268,6 @@
           "category": "Dual Purpose",
           "name": "Apsonic AP200GY",
           "description": "Built for mixed road conditions and commercial routes that demand stronger suspension and reliability.",
-          "price": "$1,980",
           "imageSrc": "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80"
         },
         {
@@ -280,7 +275,6 @@
           "category": "Entry Series",
           "name": "Apsonic AP125-2",
           "description": "Lightweight model suited for new riders and city fleets focused on efficient delivery cycles.",
-          "price": "$1,200",
           "imageSrc": "https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&w=1200&q=80"
         }
       ]
@@ -333,7 +327,7 @@
       },
       "form": {
         "title": "Get in Touch",
-        "description": "Have an inquiry about pricing, fleet options, or service plans? Send us a message.",
+        "description": "Have an inquiry about fleet options or service plans? Send us a message.",
         "submitLabel": "Send Message"
       }
     },
@@ -378,3 +372,4 @@
   "updatedAt": "2026-03-18T12:49:37.072Z",
   "publishedAt": "2026-03-18T12:50:51.657Z"
 }
+

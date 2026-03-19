@@ -518,7 +518,6 @@ function ProductsEditor({
           name: 'New Product',
           category: 'Category',
           description: 'Describe this product.',
-          price: '$0',
           imageSrc: '',
         },
       ],
@@ -580,9 +579,6 @@ function ProductsEditor({
                 onChange={(v) => updateProduct(index, { description: v })}
                 rows={2}
               />
-            </Field>
-            <Field label="Price">
-              <Input value={product.price} onChange={(v) => updateProduct(index, { price: v })} />
             </Field>
             <ImageField
               label="Product image"

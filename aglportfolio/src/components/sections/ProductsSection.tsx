@@ -54,9 +54,21 @@ export function ProductsSection({ content }: ProductsSectionProps) {
               <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">{product.category}</span>
               <h3 className="text-xl font-bold text-emerald-950">{product.name}</h3>
               <p className="text-sm text-emerald-800">{product.description}</p>
-              <div className="flex items-center justify-between">
-                <strong className="text-lg font-black text-emerald-900">{product.price}</strong>
-                <button className="text-sm font-semibold text-emerald-700 transition hover:text-emerald-900">View</button>
+              <div className="flex flex-wrap items-center gap-2">
+                <a
+                  href={`https://wa.me/233200001234?text=${encodeURIComponent(`Hello AGL, I need details for ${product.name}.`)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full bg-emerald-700 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-emerald-800"
+                >
+                  WhatsApp for Quote
+                </a>
+                <a
+                  href="mailto:sales@apusigaghana.com?subject=Product%20Enquiry"
+                  className="rounded-full border border-emerald-300 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-emerald-800 transition hover:bg-emerald-50"
+                >
+                  Email Enquiry
+                </a>
               </div>
             </div>
           </article>

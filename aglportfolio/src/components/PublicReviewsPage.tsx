@@ -1,4 +1,5 @@
 import { CustomerServiceSection } from './sections'
+import { WhatsAppFloatButton } from './WhatsAppFloatButton'
 
 export function PublicReviewsPage() {
   return (
@@ -6,12 +7,20 @@ export function PublicReviewsPage() {
       <section className="w-full bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.18),_transparent_40%),linear-gradient(180deg,_#ecfdf5_0%,_#ffffff_62%)] px-6 py-16 md:px-12">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-5 text-center">
           <div className="flex justify-center">
-            <a
-              href="/"
-              className="inline-flex items-center rounded-full border border-emerald-200 bg-white/80 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 backdrop-blur transition hover:border-emerald-300 hover:bg-white"
-            >
-              Back to Main Site
-            </a>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <a
+                href="/"
+                className="inline-flex items-center rounded-full border border-emerald-200 bg-white/80 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 backdrop-blur transition hover:border-emerald-300 hover:bg-white"
+              >
+                Back to Main Site
+              </a>
+              <a
+                href="/where-to-buy"
+                className="inline-flex items-center rounded-full border border-emerald-200 bg-white/80 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 backdrop-blur transition hover:border-emerald-300 hover:bg-white"
+              >
+                Where To Buy
+              </a>
+            </div>
           </div>
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-emerald-600">Customer Feedback</p>
           <h1 className="text-4xl font-black tracking-tight text-emerald-950 md:text-6xl">
@@ -38,6 +47,7 @@ export function PublicReviewsPage() {
         </div>
       </section>
       <CustomerServiceSection />
+      <WhatsAppFloatButton message="Hello AGL, I just left a review and need support on Apsonic products." />
     </main>
   )
 }

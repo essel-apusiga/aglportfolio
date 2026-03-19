@@ -48,7 +48,6 @@ export const companyWebsiteContent: CompanyWebsiteContent = {
         name: 'Apsonic AP150-7',
         description:
           'Fuel-efficient and dependable for daily urban commuting with practical long-term maintenance costs.',
-        price: '$1,450',
         imageSrc: heroImage,
       },
       {
@@ -57,7 +56,6 @@ export const companyWebsiteContent: CompanyWebsiteContent = {
         name: 'Apsonic AP200GY',
         description:
           'Built for mixed road conditions and commercial routes that demand stronger suspension and reliability.',
-        price: '$1,980',
         imageSrc: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80',
       },
       {
@@ -65,7 +63,6 @@ export const companyWebsiteContent: CompanyWebsiteContent = {
         category: 'Entry Series',
         name: 'Apsonic AP125-2',
         description: 'Lightweight model suited for new riders and city fleets focused on efficient delivery cycles.',
-        price: '$1,200',
         imageSrc: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&w=1200&q=80',
       },
       {
@@ -73,7 +70,6 @@ export const companyWebsiteContent: CompanyWebsiteContent = {
         category: 'Performance',
         name: 'Apsonic AP250 Sport',
         description: 'Performance-oriented model with improved road grip and responsive acceleration for power riders.',
-        price: '$2,450',
         imageSrc: uiReferenceImage,
       },
     ],
@@ -130,7 +126,7 @@ export const companyWebsiteContent: CompanyWebsiteContent = {
     },
     form: {
       title: 'Get in Touch',
-      description: 'Have an inquiry about pricing, fleet options, or service plans? Send us a message.',
+      description: 'Have an inquiry about fleet options or service plans? Send us a message.',
       submitLabel: 'Send Message',
     },
   },

@@ -10,6 +10,7 @@ import {
   ProductsSection,
   TeamSection,
 } from '../sections'
+import { WhatsAppFloatButton } from '../WhatsAppFloatButton'
 import type { CompanyWebsiteContent, SectionKey } from './types'
 
 type CompanyWebsiteProps = {
@@ -67,6 +68,7 @@ export function CompanyWebsite({ content }: CompanyWebsiteProps) {
       ))}
       <CustomerServiceSection />
       <FooterSection content={content.footer} />
+      <WhatsAppFloatButton message="Hello AGL, I need details about Apsonic tricycles in Ghana." />
     </main>
   )
 }

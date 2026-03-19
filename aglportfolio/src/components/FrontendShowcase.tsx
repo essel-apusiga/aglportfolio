@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchPublishedSiteConfig } from '../utils/api'
+import { setJsonLd } from '../utils/seo'
 import { CompanyWebsite } from './website/CompanyWebsite'
 import type { CompanyWebsiteContent } from './website/types'
 
@@ -13,6 +14,34 @@ export function FrontendShowcase() {
         const backendConfig = await fetchPublishedSiteConfig()
         setContent(backendConfig)
         setStatusMessage('Showing published website content.')
+
+        const productEntities = backendConfig.products.products.map((product) => ({
+          '@type': 'Product',
+          name: product.name,
+          description: product.description,
+          image: product.imageSrc,
+          brand: {
+            '@type': 'Brand',
+            name: 'Apsonic',
+          },
+          url: 'https://apusigaghana.com/where-to-buy',
+        }))
+
+        setJsonLd('agl-home-seo', [
+          {
+            '@context': 'https://schema.org',
+            '@type': 'AutoDealer',
+            name: backendConfig.header.brandName,
+            telephone: backendConfig.location.contactDetails.phone,
+            email: backendConfig.location.contactDetails.email,
+            areaServed: 'Ghana',
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            itemListElement: productEntities,
+          },
+        ])
       } catch {
         setStatusMessage('Published website content is unavailable right now.')
       }

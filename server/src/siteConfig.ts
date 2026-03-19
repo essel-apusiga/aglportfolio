@@ -35,7 +35,6 @@ export type SiteConfig = {
       category: string
       name: string
       description: string
-      price: string
       imageSrc: string
     }>
   }
@@ -130,7 +129,6 @@ export const defaultSiteConfig: SiteConfig = {
         category: 'Commuter',
         name: 'Apsonic AP150-7',
         description: 'Fuel-efficient and dependable for daily urban commuting with practical long-term maintenance costs.',
-        price: '$1,450',
         imageSrc: 'https://images.unsplash.com/photo-1558981285-6f0c94958bb6?auto=format&fit=crop&w=1200&q=80',
       },
       {
@@ -138,7 +136,6 @@ export const defaultSiteConfig: SiteConfig = {
         category: 'Dual Purpose',
         name: 'Apsonic AP200GY',
         description: 'Built for mixed road conditions and commercial routes that demand stronger suspension and reliability.',
-        price: '$1,980',
         imageSrc: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80',
       },
       {
@@ -146,7 +143,6 @@ export const defaultSiteConfig: SiteConfig = {
         category: 'Entry Series',
         name: 'Apsonic AP125-2',
         description: 'Lightweight model suited for new riders and city fleets focused on efficient delivery cycles.',
-        price: '$1,200',
         imageSrc: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&w=1200&q=80',
       },
     ],
@@ -196,7 +192,7 @@ export const defaultSiteConfig: SiteConfig = {
     },
     form: {
       title: 'Get in Touch',
-      description: 'Have an inquiry about pricing, fleet options, or service plans? Send us a message.',
+      description: 'Have an inquiry about fleet options or service plans? Send us a message.',
       submitLabel: 'Send Message',
     },
   },
@@ -226,6 +222,22 @@ export const defaultSiteConfig: SiteConfig = {
 
 function cloneConfig<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T
+}
+
+function normalizeSiteConfig(config: SiteConfig): SiteConfig {
+  return {
+    ...config,
+    products: {
+      ...config.products,
+      products: config.products.products.map((product) => ({
+        id: product.id,
+        category: product.category,
+        name: product.name,
+        description: product.description,
+        imageSrc: product.imageSrc,
+      })),
+    },
+  }
 }
 
 function createDefaultSiteState(): SiteState {
@@ -270,9 +282,12 @@ export async function loadSiteConfig(): Promise<SiteConfig> {
   const existingState = await collection.findOne({ key: SITE_STATE_KEY })
 
   if (existingState && isSiteStateLike(existingState)) {
+    const normalizedDraft = normalizeSiteConfig(existingState.draft)
+    const normalizedPublished = normalizeSiteConfig(existingState.published)
+
     siteState = {
-      draft: cloneConfig(existingState.draft),
-      published: cloneConfig(existingState.published),
+      draft: cloneConfig(normalizedDraft),
+      published: cloneConfig(normalizedPublished),
       updatedAt: existingState.updatedAt,
       publishedAt: existingState.publishedAt,
     }
@@ -321,7 +336,7 @@ export async function persistSiteConfig(nextConfig: SiteConfig): Promise<SiteCon
   const now = new Date().toISOString()
   await persistSiteState({
     ...siteState,
-    draft: nextConfig,
+    draft: normalizeSiteConfig(nextConfig),
     updatedAt: now,
   })
   return siteState.draft
