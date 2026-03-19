@@ -6,3 +6,5 @@ aglportfolio/dist-ssr/
 server/dist/
 *.log
 *.local
+.env
+server/.env

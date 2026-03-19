@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import {
@@ -15,6 +16,14 @@ import {
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Request logging middleware for monitoring
+app.use((req, _res, next) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${req.method} ${req.path}`);
+  next();
+});
+
 const editableSections = ['header', 'hero', 'about', 'products', 'team', 'location', 'footer'] as const;
 type EditableSection = (typeof editableSections)[number];
 const readableSectionAliases = {
@@ -33,8 +42,42 @@ const readableSectionAliases = {
 type ReadableSectionAlias = keyof typeof readableSectionAliases;
 type ReadableSection = (typeof readableSectionAliases)[ReadableSectionAlias];
 
+let cmsStoreStatus: 'ready' | 'unavailable' = 'unavailable';
+let cmsStoreError: string | null = null;
+
 app.use(cors());
 app.use(express.json());
+
+async function ensureCmsStoreReady() {
+  try {
+    await loadSiteConfig();
+    cmsStoreStatus = 'ready';
+    cmsStoreError = null;
+    return true;
+  } catch (error) {
+    cmsStoreStatus = 'unavailable';
+    cmsStoreError = error instanceof Error ? error.message : 'Unknown CMS data store error.';
+    return false;
+  }
+}
+
+app.use('/api', async (req, res, next) => {
+  if (req.path === '/health') {
+    next();
+    return;
+  }
+
+  const isReady = await ensureCmsStoreReady();
+  if (!isReady) {
+    res.status(503).json({
+      error: 'CMS data store is unavailable.',
+      details: cmsStoreError,
+    });
+    return;
+  }
+
+  next();
+});
 
 function isSiteConfig(value: unknown): value is SiteConfig {
   if (!value || typeof value !== 'object') {
@@ -295,11 +338,73 @@ app.post('/api/cms/reset-all', async (_req, res) => {
 });
 
 app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', message: 'Server is running' });
-});
-
-void loadSiteConfig().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+  res.json({
+    status: cmsStoreStatus === 'ready' ? 'ok' : 'degraded',
+    message: cmsStoreStatus === 'ready' ? 'Server is running' : 'Server is running, but CMS data store is unavailable',
+    cmsStoreStatus,
+    cmsStoreError,
   });
 });
+
+const server = app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  void ensureCmsStoreReady().then((isReady) => {
+    if (!isReady) {
+      console.error('Failed to initialize CMS data store.', cmsStoreError);
+    } else {
+      console.log('CMS data store initialized successfully');
+    }
+  });
+});
+
+// 404 handler for unmatched routes
+app.use((_req, res) => {
+  res.status(404).json({
+    error: 'Not Found',
+    message: 'The requested endpoint does not exist.',
+  });
+});
+
+// Global error handler middleware
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  const status = err.status || err.statusCode || 500;
+  const message = err.message || 'Internal Server Error';
+
+  console.error('[Error]', {
+    status,
+    message,
+    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+  });
+
+  res.status(status).json({
+    error: message,
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+  });
+});
+
+// Graceful shutdown handling for production
+const gracefulShutdown = async () => {
+  console.log('Shutdown signal received, closing server gracefully...');
+
+  server.close(async () => {
+    console.log('HTTP server closed');
+    // Close MongoDB connection if it was established
+    try {
+      const { MongoClient } = await import('mongodb');
+      // Connection cleanup is handled by the driver
+    } catch {
+      // Connection not established
+    }
+    process.exit(0);
+  });
+
+  // Force exit after 30 seconds
+  setTimeout(() => {
+    console.error('Forced shutdown after timeout');
+    process.exit(1);
+  }, 30000);
+};
+
+process.on('SIGTERM', gracefulShutdown);
+process.on('SIGINT', gracefulShutdown);

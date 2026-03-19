@@ -1,5 +1,4 @@
-import { promises as fs } from 'node:fs'
-import path from 'node:path'
+import { getDb } from './db'
 
 export type SectionKey = 'home' | 'about' | 'products' | 'team' | 'contact'
 
@@ -72,13 +71,18 @@ export type SiteConfig = {
   }
 }
 
-const CONFIG_PATH = path.resolve(__dirname, '../data/site-config.json')
+const SITE_STATE_COLLECTION = 'site_state'
+const SITE_STATE_KEY = 'primary'
 
 type SiteState = {
   draft: SiteConfig
   published: SiteConfig
   updatedAt: string
   publishedAt: string
+}
+
+type SiteStateDocument = SiteState & {
+  key: string
 }
 
 export const defaultSiteConfig: SiteConfig = {
@@ -220,14 +224,21 @@ export const defaultSiteConfig: SiteConfig = {
   },
 }
 
-const defaultSiteState: SiteState = {
-  draft: defaultSiteConfig,
-  published: defaultSiteConfig,
-  updatedAt: new Date().toISOString(),
-  publishedAt: new Date().toISOString(),
+function cloneConfig<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T
 }
 
-let siteState: SiteState = defaultSiteState
+function createDefaultSiteState(): SiteState {
+  const now = new Date().toISOString()
+  return {
+    draft: cloneConfig(defaultSiteConfig),
+    published: cloneConfig(defaultSiteConfig),
+    updatedAt: now,
+    publishedAt: now,
+  }
+}
+
+let siteState: SiteState = createDefaultSiteState()
 
 function isConfigLike(value: unknown): value is SiteConfig {
   if (!value || typeof value !== 'object') {
@@ -255,33 +266,21 @@ function isSiteStateLike(value: unknown): value is SiteState {
 }
 
 export async function loadSiteConfig(): Promise<SiteConfig> {
-  try {
-    const fileContent = await fs.readFile(CONFIG_PATH, 'utf-8')
-    const parsed = JSON.parse(fileContent) as unknown
+  const collection = await getSiteStateCollection()
+  const existingState = await collection.findOne({ key: SITE_STATE_KEY })
 
-    if (isSiteStateLike(parsed)) {
-      siteState = parsed
-      return siteState.published
+  if (existingState && isSiteStateLike(existingState)) {
+    siteState = {
+      draft: cloneConfig(existingState.draft),
+      published: cloneConfig(existingState.published),
+      updatedAt: existingState.updatedAt,
+      publishedAt: existingState.publishedAt,
     }
-
-    if (isConfigLike(parsed)) {
-      // Migration path for older single-config file format.
-      const now = new Date().toISOString()
-      siteState = {
-        draft: parsed,
-        published: parsed,
-        updatedAt: now,
-        publishedAt: now,
-      }
-      await persistSiteState(siteState)
-      return siteState.published
-    }
-  } catch {
-    // Fallback to default config when persisted file is absent or malformed.
+    return siteState.published
   }
 
-  await persistSiteState(defaultSiteState)
-  siteState = defaultSiteState
+  siteState = createDefaultSiteState()
+  await persistSiteState(siteState)
   return siteState.published
 }
 
@@ -301,9 +300,20 @@ export function getSiteStateMeta() {
 }
 
 async function persistSiteState(nextState: SiteState): Promise<SiteState> {
-  siteState = nextState
-  await fs.mkdir(path.dirname(CONFIG_PATH), { recursive: true })
-  await fs.writeFile(CONFIG_PATH, JSON.stringify(siteState, null, 2), 'utf-8')
+  siteState = {
+    draft: cloneConfig(nextState.draft),
+    published: cloneConfig(nextState.published),
+    updatedAt: nextState.updatedAt,
+    publishedAt: nextState.publishedAt,
+  }
+
+  const collection = await getSiteStateCollection()
+  const document: SiteStateDocument = {
+    key: SITE_STATE_KEY,
+    ...siteState,
+  }
+
+  await collection.updateOne({ key: SITE_STATE_KEY }, { $set: document }, { upsert: true })
   return siteState
 }
 
@@ -321,7 +331,7 @@ export async function publishDraftSiteConfig(): Promise<SiteConfig> {
   const now = new Date().toISOString()
   await persistSiteState({
     ...siteState,
-    published: siteState.draft,
+    published: cloneConfig(siteState.draft),
     publishedAt: now,
   })
   return siteState.published
@@ -331,19 +341,18 @@ export async function resetDraftSiteConfig(): Promise<SiteConfig> {
   const now = new Date().toISOString()
   await persistSiteState({
     ...siteState,
-    draft: siteState.published,
+    draft: cloneConfig(siteState.published),
     updatedAt: now,
   })
   return siteState.draft
 }
 
 export async function resetAllSiteConfig(): Promise<SiteConfig> {
-  const now = new Date().toISOString()
-  await persistSiteState({
-    draft: defaultSiteConfig,
-    published: defaultSiteConfig,
-    updatedAt: now,
-    publishedAt: now,
-  })
+  await persistSiteState(createDefaultSiteState())
   return siteState.draft
+}
+
+async function getSiteStateCollection() {
+  const db = await getDb()
+  return db.collection<SiteStateDocument>(SITE_STATE_COLLECTION)
 }

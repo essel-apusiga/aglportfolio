@@ -11,7 +11,11 @@ import type {
   TeamSectionContent,
 } from '../components/website/types'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:5000'
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim() || ''
+
+function apiUrl(path: string) {
+  return API_BASE_URL ? `${API_BASE_URL}${path}` : path
+}
 
 type CmsMeta = {
   updatedAt: string
@@ -73,7 +77,7 @@ async function parseCmsResponse(response: Response, action: string): Promise<Cms
 }
 
 export async function fetchPublishedSiteConfig(): Promise<CompanyWebsiteContent> {
-  const response = await fetch(`${API_BASE_URL}/api/site-config`)
+  const response = await fetch(apiUrl('/api/site-config'))
   if (!response.ok) {
     throw new Error(`Failed to fetch published site config: ${response.status}`)
   }
@@ -82,7 +86,7 @@ export async function fetchPublishedSiteConfig(): Promise<CompanyWebsiteContent>
 }
 
 export async function fetchPublishedSections(): Promise<SectionsResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/site-config/sections`)
+  const response = await fetch(apiUrl('/api/site-config/sections'))
   if (!response.ok) {
     throw new Error(`Failed to fetch published sections: ${response.status}`)
   }
@@ -91,7 +95,7 @@ export async function fetchPublishedSections(): Promise<SectionsResponse> {
 }
 
 export async function fetchPublishedSection(sectionName: SiteSectionName): Promise<SectionResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/site-config/section/${sectionName}`)
+  const response = await fetch(apiUrl(`/api/site-config/section/${sectionName}`))
   if (!response.ok) {
     throw new Error(`Failed to fetch published section ${sectionName}: ${response.status}`)
   }
@@ -100,12 +104,12 @@ export async function fetchPublishedSection(sectionName: SiteSectionName): Promi
 }
 
 export async function fetchCmsConfig(): Promise<CmsResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/cms/config`)
+  const response = await fetch(apiUrl('/api/cms/config'))
   return parseCmsResponse(response, 'fetch CMS config')
 }
 
 export async function fetchCmsState(): Promise<CmsStateResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/cms/state`)
+  const response = await fetch(apiUrl('/api/cms/state'))
   if (!response.ok) {
     throw new Error(`Failed to fetch CMS state: ${response.status}`)
   }
@@ -114,7 +118,7 @@ export async function fetchCmsState(): Promise<CmsStateResponse> {
 }
 
 export async function fetchCmsSections(): Promise<SectionsResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/cms/sections`)
+  const response = await fetch(apiUrl('/api/cms/sections'))
   if (!response.ok) {
     throw new Error(`Failed to fetch CMS sections: ${response.status}`)
   }
@@ -123,7 +127,7 @@ export async function fetchCmsSections(): Promise<SectionsResponse> {
 }
 
 export async function fetchCmsSection(sectionName: SiteSectionName): Promise<SectionResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/cms/section/${sectionName}`)
+  const response = await fetch(apiUrl(`/api/cms/section/${sectionName}`))
   if (!response.ok) {
     throw new Error(`Failed to fetch CMS section ${sectionName}: ${response.status}`)
   }
@@ -132,12 +136,12 @@ export async function fetchCmsSection(sectionName: SiteSectionName): Promise<Sec
 }
 
 export async function fetchCmsPreview(): Promise<CmsResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/cms/preview`)
+  const response = await fetch(apiUrl('/api/cms/preview'))
   return parseCmsResponse(response, 'fetch CMS preview')
 }
 
 export async function saveSiteConfig(config: CompanyWebsiteContent): Promise<CmsResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/cms/config`, {
+  const response = await fetch(apiUrl('/api/cms/config'), {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -149,7 +153,7 @@ export async function saveSiteConfig(config: CompanyWebsiteContent): Promise<Cms
 }
 
 export async function saveSectionOrder(sectionOrder: SectionKey[]): Promise<CmsResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/cms/section-order`, {
+  const response = await fetch(apiUrl('/api/cms/section-order'), {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -161,7 +165,7 @@ export async function saveSectionOrder(sectionOrder: SectionKey[]): Promise<CmsR
 }
 
 export async function saveNavLinks(navLinks: NavLink[]): Promise<CmsResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/cms/nav-links`, {
+  const response = await fetch(apiUrl('/api/cms/nav-links'), {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -176,7 +180,7 @@ export async function saveCmsSection<K extends keyof CmsSectionMap>(
   sectionName: K,
   sectionData: CmsSectionMap[K],
 ): Promise<CmsResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/cms/section/${sectionName}`, {
+  const response = await fetch(apiUrl(`/api/cms/section/${sectionName}`), {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -188,7 +192,7 @@ export async function saveCmsSection<K extends keyof CmsSectionMap>(
 }
 
 export async function publishCmsConfig(): Promise<CmsResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/cms/publish`, {
+  const response = await fetch(apiUrl('/api/cms/publish'), {
     method: 'POST',
   })
 
@@ -196,7 +200,7 @@ export async function publishCmsConfig(): Promise<CmsResponse> {
 }
 
 export async function resetCmsDraft(): Promise<CmsResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/cms/reset-draft`, {
+  const response = await fetch(apiUrl('/api/cms/reset-draft'), {
     method: 'POST',
   })
 
@@ -204,7 +208,7 @@ export async function resetCmsDraft(): Promise<CmsResponse> {
 }
 
 export async function resetCmsAll(): Promise<CmsResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/cms/reset-all`, {
+  const response = await fetch(apiUrl('/api/cms/reset-all'), {
     method: 'POST',
   })
 

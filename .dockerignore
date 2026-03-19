@@ -1,0 +1,22 @@
+# Git and editor
+.git
+.gitignore
+.vscode
+
+# Node artifacts
+**/node_modules
+**/npm-debug.log
+**/yarn-error.log
+
+# Build output
+**/dist
+aglportfolio/dist
+
+# Env files
+**/.env
+**/.env.*
+
+# Cache and temp
+**/.cache
+**/.DS_Store
+**/Thumbs.db
