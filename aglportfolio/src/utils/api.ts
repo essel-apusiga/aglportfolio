@@ -53,6 +53,11 @@ type CmsStateResponse = {
   meta: CmsMeta
 }
 
+type SectionOrderResponse = {
+  sectionOrder: SectionKey[]
+  meta: CmsMeta
+}
+
 export type SiteSectionName =
   | 'header'
   | 'home'
@@ -114,6 +119,15 @@ export async function fetchPublishedSections(): Promise<SectionsResponse> {
   return response.json() as Promise<SectionsResponse>
 }
 
+export async function fetchPublishedSectionOrder(): Promise<SectionOrderResponse> {
+  const response = await fetch(apiUrl('/api/site-config/section-order'))
+  if (!response.ok) {
+    throw new Error(`Failed to fetch published section order: ${response.status}`)
+  }
+
+  return response.json() as Promise<SectionOrderResponse>
+}
+
 export async function fetchPublishedSection(sectionName: SiteSectionName): Promise<SectionResponse> {
   const response = await fetch(apiUrl(`/api/site-config/section/${sectionName}`))
   if (!response.ok) {
@@ -144,6 +158,15 @@ export async function fetchCmsSections(): Promise<SectionsResponse> {
   }
 
   return response.json() as Promise<SectionsResponse>
+}
+
+export async function fetchCmsSectionOrder(): Promise<SectionOrderResponse> {
+  const response = await fetch(apiUrl('/api/cms/section-order'))
+  if (!response.ok) {
+    throw new Error(`Failed to fetch CMS section order: ${response.status}`)
+  }
+
+  return response.json() as Promise<SectionOrderResponse>
 }
 
 export async function fetchCmsSection(sectionName: SiteSectionName): Promise<SectionResponse> {

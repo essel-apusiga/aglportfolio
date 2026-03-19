@@ -168,6 +168,14 @@ app.get('/api/site-config/sections', (_req, res) => {
   });
 });
 
+app.get('/api/site-config/section-order', (_req, res) => {
+  const config = getSiteConfig();
+  res.json({
+    sectionOrder: config.sectionOrder,
+    meta: getSiteStateMeta(),
+  });
+});
+
 app.get('/api/site-config/section/:sectionName', (req, res) => {
   const resolved = resolveReadableSection(req.params.sectionName);
   if (!resolved) {
@@ -204,6 +212,14 @@ app.get('/api/cms/sections', (_req, res) => {
   const config = getDraftSiteConfig();
   res.json({
     sections: sectionsPayload(config),
+    meta: getSiteStateMeta(),
+  });
+});
+
+app.get('/api/cms/section-order', (_req, res) => {
+  const config = getDraftSiteConfig();
+  res.json({
+    sectionOrder: config.sectionOrder,
     meta: getSiteStateMeta(),
   });
 });
