@@ -58,6 +58,17 @@ type SectionOrderResponse = {
   meta: CmsMeta
 }
 
+export type ContactMessageInput = {
+  name: string
+  email: string
+  message: string
+}
+
+type ContactMessageResponse = {
+  success: boolean
+  message: string
+}
+
 export type SiteSectionName =
   | 'header'
   | 'home'
@@ -256,4 +267,20 @@ export async function resetCmsAll(): Promise<CmsResponse> {
   })
 
   return parseCmsResponse(response, 'reset all CMS data')
+}
+
+export async function sendContactMessage(payload: ContactMessageInput): Promise<ContactMessageResponse> {
+  const response = await fetch(apiUrl('/api/contact'), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+
+  if (!response.ok) {
+    throw new Error(`Failed to send contact message: ${response.status}`)
+  }
+
+  return response.json() as Promise<ContactMessageResponse>
 }

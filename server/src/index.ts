@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import { isContactEmailConfigured, sendContactEmail, validateContactMessage } from './contactEmail';
 import {
   getDraftSiteConfig,
   getSiteConfig,
@@ -62,7 +63,7 @@ async function ensureCmsStoreReady() {
 }
 
 app.use('/api', async (req, res, next) => {
-  if (req.path === '/health') {
+  if (req.path === '/health' || req.path === '/contact') {
     next();
     return;
   }
@@ -158,6 +159,26 @@ async function saveDraftConfig(nextConfig: SiteConfig, res: express.Response) {
 // Public website endpoint (published content).
 app.get('/api/site-config', (_req, res) => {
   res.json(getSiteConfig());
+});
+
+app.post('/api/contact', async (req, res) => {
+  if (!validateContactMessage(req.body)) {
+    res.status(400).json({ error: 'Invalid contact message payload.' });
+    return;
+  }
+
+  if (!isContactEmailConfigured()) {
+    res.status(503).json({ error: 'Contact email service is unavailable.' });
+    return;
+  }
+
+  try {
+    await sendContactEmail(req.body);
+    res.status(202).json({ success: true, message: 'Your message has been sent.' });
+  } catch (error) {
+    console.error('Failed to send contact email.', error);
+    res.status(502).json({ error: 'Failed to send message right now.' });
+  }
 });
 
 app.get('/api/site-config/sections', (_req, res) => {
