@@ -11,10 +11,25 @@ import type {
   TeamSectionContent,
 } from '../components/website/types'
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim() || ''
+const RAW_API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim() || ''
+
+function normalizeApiBaseUrl(rawBaseUrl: string) {
+  if (!rawBaseUrl) {
+    return ''
+  }
+
+  if (rawBaseUrl.startsWith('http://') || rawBaseUrl.startsWith('https://')) {
+    return rawBaseUrl.replace(/\/+$/, '')
+  }
+
+  return `http://${rawBaseUrl}`.replace(/\/+$/, '')
+}
+
+const API_BASE_URL = normalizeApiBaseUrl(RAW_API_BASE_URL)
 
 function apiUrl(path: string) {
-  return API_BASE_URL ? `${API_BASE_URL}${path}` : path
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+  return API_BASE_URL ? `${API_BASE_URL}${normalizedPath}` : normalizedPath
 }
 
 type CmsMeta = {
