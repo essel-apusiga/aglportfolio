@@ -279,7 +279,14 @@ export async function sendContactMessage(payload: ContactMessageInput): Promise<
   })
 
   if (!response.ok) {
-    throw new Error(`Failed to send contact message: ${response.status}`)
+    let serverMessage = `Failed to send contact message: ${response.status}`
+    try {
+      const payload = (await response.json()) as { error?: string; message?: string }
+      serverMessage = payload.error || payload.message || serverMessage
+    } catch {
+      // Ignore parsing errors and keep the fallback message.
+    }
+    throw new Error(serverMessage)
   }
 
   return response.json() as Promise<ContactMessageResponse>

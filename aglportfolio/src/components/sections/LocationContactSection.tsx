@@ -9,15 +9,50 @@ type LocationContactSectionProps = {
 
 export function LocationContactSection({ content }: LocationContactSectionProps) {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [touched, setTouched] = useState({ name: false, email: false, message: false })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+
+  const trimmedName = form.name.trim()
+  const trimmedEmail = form.email.trim()
+  const trimmedMessage = form.message.trim()
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+  const errors = {
+    name:
+      trimmedName.length === 0
+        ? 'Name is required.'
+        : trimmedName.length < 2
+          ? 'Name must be at least 2 characters.'
+          : '',
+    email:
+      trimmedEmail.length === 0
+        ? 'Email is required.'
+        : !emailPattern.test(trimmedEmail)
+          ? 'Enter a valid email address.'
+          : '',
+    message:
+      trimmedMessage.length === 0
+        ? 'Message is required.'
+        : trimmedMessage.length < 10
+          ? 'Message must be at least 10 characters.'
+          : '',
+  }
+
+  const isFormValid = !errors.name && !errors.email && !errors.message
+  const canSubmit = isFormValid && !isSubmitting
+
+  function markTouched(field: 'name' | 'email' | 'message') {
+    setTouched((current) => ({ ...current, [field]: true }))
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setFeedback(null)
 
-    if (form.name.trim().length < 2 || form.message.trim().length < 10) {
-      setFeedback({ type: 'error', text: 'Please provide your name and a more detailed message.' })
+    if (!isFormValid) {
+      setTouched({ name: true, email: true, message: true })
+      setFeedback({ type: 'error', text: 'Please fix the highlighted fields before submitting.' })
       return
     }
 
@@ -25,12 +60,13 @@ export function LocationContactSection({ content }: LocationContactSectionProps)
 
     try {
       const response = await sendContactMessage({
-        name: form.name.trim(),
-        email: form.email.trim(),
-        message: form.message.trim(),
+        name: trimmedName,
+        email: trimmedEmail,
+        message: trimmedMessage,
       })
       setFeedback({ type: 'success', text: response.message })
       setForm({ name: '', email: '', message: '' })
+      setTouched({ name: false, email: false, message: false })
     } catch (error) {
       setFeedback({
         type: 'error',
@@ -77,10 +113,20 @@ export function LocationContactSection({ content }: LocationContactSectionProps)
               placeholder="John Doe"
               value={form.name}
               onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
-              className="rounded-lg border border-emerald-200 px-3 py-2 text-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
+              onBlur={() => markTouched('name')}
+              className={`rounded-lg border px-3 py-2 text-sm outline-none transition focus:ring-2 ${
+                touched.name && errors.name
+                  ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-200'
+                  : 'border-emerald-200 focus:border-emerald-500 focus:ring-emerald-200'
+              }`}
               required
               minLength={2}
+              aria-invalid={touched.name && Boolean(errors.name)}
+              aria-describedby="contact-name-error"
             />
+            <span id="contact-name-error" className="min-h-5 text-xs text-rose-700" aria-live="polite">
+              {touched.name && errors.name ? errors.name : ' '}
+            </span>
           </label>
           <label className="grid gap-1 text-sm font-medium text-emerald-900">
             Email Address
@@ -89,9 +135,19 @@ export function LocationContactSection({ content }: LocationContactSectionProps)
               placeholder="john@example.com"
               value={form.email}
               onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
-              className="rounded-lg border border-emerald-200 px-3 py-2 text-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
+              onBlur={() => markTouched('email')}
+              className={`rounded-lg border px-3 py-2 text-sm outline-none transition focus:ring-2 ${
+                touched.email && errors.email
+                  ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-200'
+                  : 'border-emerald-200 focus:border-emerald-500 focus:ring-emerald-200'
+              }`}
               required
+              aria-invalid={touched.email && Boolean(errors.email)}
+              aria-describedby="contact-email-error"
             />
+            <span id="contact-email-error" className="min-h-5 text-xs text-rose-700" aria-live="polite">
+              {touched.email && errors.email ? errors.email : ' '}
+            </span>
           </label>
           <label className="grid gap-1 text-sm font-medium text-emerald-900">
             Message
@@ -100,17 +156,34 @@ export function LocationContactSection({ content }: LocationContactSectionProps)
               placeholder="How can we help you?"
               value={form.message}
               onChange={(event) => setForm((current) => ({ ...current, message: event.target.value }))}
-              className="rounded-lg border border-emerald-200 px-3 py-2 text-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
+              onBlur={() => markTouched('message')}
+              className={`rounded-lg border px-3 py-2 text-sm outline-none transition focus:ring-2 ${
+                touched.message && errors.message
+                  ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-200'
+                  : 'border-emerald-200 focus:border-emerald-500 focus:ring-emerald-200'
+              }`}
               required
               minLength={10}
+              aria-invalid={touched.message && Boolean(errors.message)}
+              aria-describedby="contact-message-error contact-message-helper"
             />
+            <div className="flex min-h-5 items-center justify-between gap-2 text-xs" id="contact-message-helper">
+              <span id="contact-message-error" className="text-rose-700" aria-live="polite">
+                {touched.message && errors.message ? errors.message : ' '}
+              </span>
+              <span className="text-emerald-700">{form.message.length}/5000</span>
+            </div>
           </label>
           {feedback && (
-            <p className={feedback.type === 'success' ? 'text-sm font-medium text-emerald-700' : 'text-sm font-medium text-rose-700'}>
+            <p
+              className={feedback.type === 'success' ? 'rounded-lg bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700' : 'rounded-lg bg-rose-50 px-3 py-2 text-sm font-medium text-rose-700'}
+              role="status"
+              aria-live="polite"
+            >
               {feedback.text}
             </p>
           )}
-          <Button disabled={isSubmitting}>{isSubmitting ? 'Sending...' : content.form.submitLabel}</Button>
+          <Button disabled={!canSubmit}>{isSubmitting ? 'Sending...' : content.form.submitLabel}</Button>
         </form>
       </div>
     </section>
