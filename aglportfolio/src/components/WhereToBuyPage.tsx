@@ -49,7 +49,7 @@ export function WhereToBuyPage() {
       '@type': 'AutoDealer',
       name: 'Apusiga Ghana Ltd (AGL)',
       email: 'sales@apusigaghana.com',
-      telephone: '+233200001234',
+      telephone: '+233537139760',
       areaServed: 'Ghana',
       makesOffer: [
         { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Apsonic Cargo Tricycles' } },

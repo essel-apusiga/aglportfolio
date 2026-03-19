@@ -56,7 +56,7 @@ export function ProductsSection({ content }: ProductsSectionProps) {
               <p className="text-sm text-emerald-800">{product.description}</p>
               <div className="flex flex-wrap items-center gap-2">
                 <a
-                  href={`https://wa.me/233200001234?text=${encodeURIComponent(`Hello AGL, I need details for ${product.name}.`)}`}
+                  href={`https://wa.me/233537139760?text=${encodeURIComponent(`Hello AGL, I need details for ${product.name}.`)}`}
                   target="_blank"
                   rel="noreferrer"
                   className="rounded-full bg-emerald-700 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-emerald-800"
