@@ -7,7 +7,7 @@ type TeamSectionProps = {
 export function TeamSection({ content }: TeamSectionProps) {
   return (
     <section className="bg-emerald-50" id={content.id} data-purpose="team-section">
-      <div className="mx-auto w-full max-w-7xl px-4 py-16 md:px-8">
+      <div className="w-full px-6 py-16 md:px-12">
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-black text-emerald-950 md:text-4xl">{content.title}</h2>
           <p className="mx-auto mt-2 max-w-2xl text-base text-emerald-800">{content.description}</p>

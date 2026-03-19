@@ -18,7 +18,7 @@ export function ProductsSection({ content }: ProductsSectionProps) {
   }
 
   return (
-    <section className="mx-auto w-full max-w-7xl px-4 py-16 md:px-8" data-purpose="product-carousel" id={content.id}>
+    <section className="w-full px-6 py-16 md:px-12" data-purpose="product-carousel" id={content.id}>
       <div className="mb-6 flex items-end justify-between gap-4">
         <div>
           <h2 className="text-3xl font-black text-emerald-950 md:text-4xl">{content.title}</h2>

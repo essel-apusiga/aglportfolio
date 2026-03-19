@@ -9,7 +9,7 @@ export function HeroSection({ content }: HeroSectionProps) {
   const titleParts = content.title.split(content.highlightedWord)
 
   return (
-    <section className="mx-auto grid w-full max-w-7xl gap-10 bg-emerald-50 px-4 py-14 md:grid-cols-2 md:px-8 md:py-20" data-purpose="hero-banner" id={content.id}>
+    <section className="grid w-full gap-10 bg-emerald-50 px-6 py-14 md:grid-cols-2 md:px-12 md:py-20" data-purpose="hero-banner" id={content.id}>
       <div className="space-y-5">
         <p className="text-sm font-bold uppercase tracking-widest text-emerald-700">{content.badge}</p>
         <h1 className="text-4xl font-black leading-tight text-emerald-950 md:text-6xl">

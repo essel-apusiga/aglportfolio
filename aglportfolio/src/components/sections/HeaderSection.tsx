@@ -13,7 +13,7 @@ export function HeaderSection({ content, activeHref }: HeaderSectionProps) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-emerald-100 bg-white/95 backdrop-blur" data-purpose="site-navigation">
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3 md:px-8">
+      <div className="flex w-full items-center justify-between gap-3 px-6 py-3 md:px-12">
         <div className="flex items-center gap-3">
           <Badge tone="success">{content.badge}</Badge>
           <strong className="text-lg font-bold text-emerald-950">{content.brandName}</strong>
@@ -51,7 +51,7 @@ export function HeaderSection({ content, activeHref }: HeaderSectionProps) {
 
       {isMenuOpen && (
         <div className="border-t border-emerald-100 bg-white md:hidden">
-          <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-4 py-3">
+          <div className="flex w-full flex-col gap-2 px-6 py-3 md:px-12">
             {content.navLinks.map((link) => (
               <a
                 key={link.id}

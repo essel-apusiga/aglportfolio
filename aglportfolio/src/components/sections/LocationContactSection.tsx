@@ -7,7 +7,7 @@ type LocationContactSectionProps = {
 
 export function LocationContactSection({ content }: LocationContactSectionProps) {
   return (
-    <section className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-16 md:grid-cols-2 md:px-8" id={content.id} data-purpose="location-section">
+    <section className="grid w-full gap-8 px-6 py-16 md:grid-cols-2 md:px-12" id={content.id} data-purpose="location-section">
       <div className="space-y-5">
         <h2 className="text-3xl font-black text-emerald-950 md:text-4xl">{content.title}</h2>
         <p className="text-base text-emerald-800">{content.description}</p>
