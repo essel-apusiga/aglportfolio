@@ -18,6 +18,7 @@ export type SiteConfig = {
     description: string
     primaryCta: string
     secondaryCta: string
+    videoUrl: string
     imageSrc: string
     imageAlt: string
   }
@@ -106,6 +107,7 @@ export const defaultSiteConfig: SiteConfig = {
       'Discover dependable Apsonic motorcycles, service expertise, and fleet-ready support designed for modern commuters and businesses.',
     primaryCta: 'Explore Our Models',
     secondaryCta: 'Watch Demo',
+    videoUrl: '',
     imageSrc: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80',
     imageAlt: 'Apsonic motorcycles display',
   },

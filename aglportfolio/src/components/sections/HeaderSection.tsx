@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { FiMenu, FiX } from 'react-icons/fi'
 import { Badge, Button } from '../../sharedcomponents'
+import { trackCtaClick } from '../../utils/api'
 import type { HeaderContent } from '../website/types'
 
 type HeaderSectionProps = {
@@ -8,8 +9,21 @@ type HeaderSectionProps = {
   activeHref?: string
 }
 
+function scrollToSection(id: string) {
+  const el = document.getElementById(id)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
+
 export function HeaderSection({ content, activeHref }: HeaderSectionProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  function handleGetStarted() {
+    void trackCtaClick('get-started', 'header')
+    scrollToSection('contact')
+    setIsMenuOpen(false)
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-emerald-100 bg-white/95 backdrop-blur" data-purpose="site-navigation">
@@ -46,7 +60,7 @@ export function HeaderSection({ content, activeHref }: HeaderSectionProps) {
           ))}
         </nav>
 
-        <Button size="sm" className="hidden md:inline-flex">{content.ctaLabel}</Button>
+        <Button size="sm" className="hidden md:inline-flex" onClick={handleGetStarted}>{content.ctaLabel}</Button>
       </div>
 
       {isMenuOpen && (
@@ -67,7 +81,7 @@ export function HeaderSection({ content, activeHref }: HeaderSectionProps) {
                 {link.label}
               </a>
             ))}
-            <Button size="sm" className="mt-1 w-full">{content.ctaLabel}</Button>
+            <Button size="sm" className="mt-1 w-full" onClick={handleGetStarted}>{content.ctaLabel}</Button>
           </div>
         </div>
       )}

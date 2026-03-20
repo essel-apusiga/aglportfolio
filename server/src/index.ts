@@ -4,6 +4,7 @@ import cors from 'cors';
 import { isContactEmailConfigured, sendContactEmail, validateContactMessage } from './contactEmail';
 import { listContactMessages, saveContactMessage } from './contactMessages';
 import { listReviews, saveReview, validateReview } from './reviews';
+import { getCtaStats, isValidCtaPayload, recordCtaClick } from './ctaTracking';
 import {
   getDraftSiteConfig,
   getSiteConfig,
@@ -68,7 +69,8 @@ app.use('/api', async (req, res, next) => {
   if (
     req.path === '/health' ||
     req.path === '/contact' ||
-    req.path.startsWith('/reviews')
+    req.path.startsWith('/reviews') ||
+    req.path === '/track/cta'
   ) {
     next();
     return;
@@ -451,6 +453,35 @@ app.post('/api/cms/reset-all', async (_req, res) => {
     });
   } catch {
     res.status(500).json({ error: 'Failed to reset all site config.' });
+  }
+});
+
+// Public: track CTA button clicks (explore, watch-demo, get-started)
+app.post('/api/track/cta', async (req, res) => {
+  if (!isValidCtaPayload(req.body)) {
+    res.status(400).json({ error: 'Invalid payload. Provide a non-empty "button" string.' });
+    return;
+  }
+  const { button, source } = req.body as { button: string; source?: string };
+  const userAgent = req.headers['user-agent'];
+  try {
+    const record = await recordCtaClick(button, source ?? 'home', userAgent);
+    res.status(202).json({ success: true, recorded: record });
+  } catch (error) {
+    console.error('Failed to record CTA click.', error);
+    // Return success anyway so the frontend is never blocked by tracking failures
+    res.status(202).json({ success: true });
+  }
+});
+
+// CMS: get CTA engagement stats (aggregate counts per button)
+app.get('/api/cms/cta-stats', async (_req, res) => {
+  try {
+    const stats = await getCtaStats();
+    res.json({ stats });
+  } catch (error) {
+    console.error('Failed to fetch CTA stats.', error);
+    res.status(500).json({ error: 'Failed to fetch CTA stats.' });
   }
 });
 

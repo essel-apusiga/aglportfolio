@@ -378,3 +378,31 @@ export async function fetchPublicUsers(): Promise<PublicUser[]> {
     .filter((user) => Boolean(user.id && user.username))
     .sort((a, b) => a.username.localeCompare(b.username))
 }
+
+// --- CTA tracking ---
+
+export type CtaButtonName = 'explore' | 'watch-demo' | 'get-started' | string
+
+export async function trackCtaClick(button: CtaButtonName, source = 'home'): Promise<void> {
+  try {
+    await fetch(apiUrl('/api/track/cta'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ button, source }),
+    })
+  } catch {
+    // Tracking failures are silent — never block the user action
+  }
+}
+
+export async function fetchCtaStats(): Promise<
+  { button: string; count: number; lastClickedAt: string | null }[]
+> {
+  const response = await fetch(apiUrl('/api/cms/cta-stats'))
+  if (!response.ok) throw new Error(`Failed to fetch CTA stats: ${response.status}`)
+  const payload = (await response.json()) as {
+    stats: { button: string; count: number; lastClickedAt: string | null }[]
+  }
+  return payload.stats ?? []
+}
+

@@ -21,6 +21,7 @@ export type HeroContent = {
   description: string
   primaryCta: string
   secondaryCta: string
+  videoUrl?: string
   imageSrc: string
   imageAlt: string
 }

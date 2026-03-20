@@ -24,6 +24,7 @@ export const companyWebsiteContent: CompanyWebsiteContent = {
       'Discover dependable Apsonic motorcycles, service expertise, and fleet-ready support designed for modern commuters and businesses.',
     primaryCta: 'Explore Our Models',
     secondaryCta: 'Watch Demo',
+    videoUrl: '',
     imageSrc: heroImage,
     imageAlt: 'Apsonic motorcycles display',
   },

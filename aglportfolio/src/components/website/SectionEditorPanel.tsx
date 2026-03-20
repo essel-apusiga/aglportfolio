@@ -56,15 +56,18 @@ function readFileAsDataUrl(file: File) {
 
 function Field({
   label,
+  hint,
   children,
 }: {
   label: string
+  hint?: string
   children: React.ReactNode
 }) {
   return (
     <label className="grid gap-1.5">
       <span className="text-xs font-bold uppercase tracking-wide text-emerald-700">{label}</span>
       {children}
+      {hint && <span className="text-xs text-emerald-600/70">{hint}</span>}
     </label>
   )
 }
@@ -164,12 +167,13 @@ function Textarea({
   )
 }
 
-function Input({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+function Input({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
   return (
     <input
       className="w-full rounded-md border border-emerald-200 bg-white px-3 py-2 text-sm text-emerald-950 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
       value={value}
       onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
     />
   )
 }
@@ -366,6 +370,13 @@ function HeroEditor({
         <Input
           value={draft.secondaryCta}
           onChange={(v) => setDraft({ ...draft, secondaryCta: v })}
+        />
+      </Field>
+      <Field label="Demo video URL" hint="Paste a YouTube link (e.g. https://youtu.be/XXXXX) or any iframe-embeddable URL. Leave blank to show a 'Coming Soon' placeholder.">
+        <Input
+          value={draft.videoUrl ?? ''}
+          onChange={(v) => setDraft({ ...draft, videoUrl: v })}
+          placeholder="https://youtu.be/..."
         />
       </Field>
       <ImageField
