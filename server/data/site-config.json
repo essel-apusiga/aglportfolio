@@ -42,6 +42,7 @@
       "description": "Discover dependable Apsonic motorcycles, service expertise, and fleet-ready support designed for modern commuters and businesses.",
       "primaryCta": "Explore Our Models",
       "secondaryCta": "Watch Demo",
+      "videoUrl": "https://youtu.be/M7lc1UVf-VE",
       "imageSrc": "/src/assets/hero.png",
       "imageAlt": "Apsonic motorcycles display"
     },
@@ -227,6 +228,7 @@
       "description": "Discover dependable Apsonic motorcycles, service expertise, and fleet-ready support designed for modern commuters and businesses.",
       "primaryCta": "Explore Our Models",
       "secondaryCta": "Watch Demo",
+      "videoUrl": "https://youtu.be/M7lc1UVf-VE",
       "imageSrc": "/src/assets/hero.png",
       "imageAlt": "Apsonic motorcycles display"
     },
