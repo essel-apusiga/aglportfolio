@@ -229,6 +229,13 @@ function cloneConfig<T>(value: T): T {
 function normalizeSiteConfig(config: SiteConfig): SiteConfig {
   return {
     ...config,
+    hero: {
+      ...config.hero,
+      videoUrl:
+        typeof config.hero?.videoUrl === 'string' && config.hero.videoUrl.trim().length > 0
+          ? config.hero.videoUrl.trim()
+          : defaultSiteConfig.hero.videoUrl,
+    },
     products: {
       ...config.products,
       products: config.products.products.map((product) => ({

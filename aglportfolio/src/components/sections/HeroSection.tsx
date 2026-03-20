@@ -8,6 +8,12 @@ type HeroSectionProps = {
   content: HeroContent
 }
 
+const SAMPLE_DEMO_VIDEOS = [
+  'https://youtu.be/M7lc1UVf-VE',
+  'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
+  'https://www.youtube.com/watch?v=jNQXAC9IVRw',
+]
+
 function scrollToSection(id: string) {
   const el = document.getElementById(id)
   if (el) {
@@ -18,6 +24,7 @@ function scrollToSection(id: string) {
 export function HeroSection({ content }: HeroSectionProps) {
   const [showVideo, setShowVideo] = useState(false)
   const titleParts = content.title.split(content.highlightedWord)
+  const effectiveVideoUrl = content.videoUrl?.trim() || SAMPLE_DEMO_VIDEOS[0]
 
   function handleExplore() {
     void trackCtaClick('explore', 'hero')
@@ -38,7 +45,7 @@ export function HeroSection({ content }: HeroSectionProps) {
     <>
       {showVideo && (
         <VideoModal
-          videoUrl={content.videoUrl ?? ''}
+          videoUrl={effectiveVideoUrl}
           title="Apsonic Vehicles — Product Demo"
           onClose={() => setShowVideo(false)}
         />
