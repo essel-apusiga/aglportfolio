@@ -60,24 +60,26 @@ export function FrontendShowcase() {
     void loadFromBackend()
   }, [])
 
+  if (!content && isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 px-6" aria-label="Loading" role="status">
+        <div className="flex items-center justify-center gap-3">
+          <span className="h-5 w-5 animate-bounce rounded-full bg-emerald-600" />
+          <span className="h-5 w-5 animate-bounce rounded-full bg-emerald-600" style={{ animationDelay: '120ms' }} />
+          <span className="h-5 w-5 animate-bounce rounded-full bg-emerald-600" style={{ animationDelay: '240ms' }} />
+        </div>
+      </div>
+    )
+  }
+
   if (!content) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50 px-6 text-center text-emerald-950">
         <div className="max-w-xl space-y-4 rounded-2xl border border-slate-200 bg-white p-8 shadow-lg">
-          <h1 className="text-3xl font-black md:text-4xl">
-            {hasError ? 'Website Currently Unavailable' : 'Loading Published Website'}
-          </h1>
-          <p className="text-sm text-slate-700 md:text-base">{statusMessage}</p>
-
-          {isLoading && (
-            <div className="flex items-center justify-center gap-2" aria-label="Loading" role="status">
-              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-emerald-600" />
-              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-emerald-600" style={{ animationDelay: '120ms' }} />
-              <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-emerald-600" style={{ animationDelay: '240ms' }} />
-            </div>
-          )}
-
           {hasError && (
+            <>
+              <h1 className="text-3xl font-black md:text-4xl">Website Currently Unavailable</h1>
+              <p className="text-sm text-slate-700 md:text-base">{statusMessage}</p>
             <div className="space-y-3 pt-1">
               <button
                 type="button"
@@ -104,6 +106,7 @@ export function FrontendShowcase() {
                 </a>
               </div>
             </div>
+            </>
           )}
         </div>
       </div>
