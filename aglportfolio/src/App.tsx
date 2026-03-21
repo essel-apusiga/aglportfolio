@@ -38,7 +38,7 @@ function App() {
         description:
           'Rate your experience with AGL Business (Apusiga GH / Apusiga Ghana Ltd) and Apsonic products in Ghana. Submit customer reviews and service feedback quickly.',
         keywords:
-          'Apsonic Ghana reviews, AGL business reviews, Apusia GH reviews, Apusiga GH reviews, customer service review Ghana, Apsonic tricycle feedback',
+          'Apsonic Ghana reviews, AGL business reviews, Apusia GH reviews, Apusiga GH reviews, Apusiga Ghana Limited reviews, Apsnoce Motors reviews, customer service review Ghana, Apsonic tricycle feedback',
         canonicalPath: '/customerreview',
         robots: 'index,follow,max-image-preview:large',
       })
@@ -51,7 +51,7 @@ function App() {
         description:
           'Find Tamale and Accra AGL Business branches (Apusiga GH) to buy Apsonic tricycles, motorbikes, tires, and spare parts. Includes contact details and map directions.',
         keywords:
-          'AGL business, Apusia GH, Apusiga GH, Apsonic dealer Ghana, buy tricycle in Ghana, Apsonic Tamale, Apsonic Accra, Apsonic products Ghana',
+          'AGL business, agl.business, Apusia GH, Apusiga GH, Apusiga Ghana Limited, Apsonic Motors Ghana, Apsnoce Motors, Apsonic dealer Ghana, buy tricycle in Ghana, Apsonic Tamale, Apsonic Accra, Apsonic products Ghana',
         canonicalPath: '/where-to-buy',
         robots: 'index,follow,max-image-preview:large',
       })
@@ -72,7 +72,7 @@ function App() {
       description:
         'AGL Business (Apusiga GH / Apusiga Ghana Ltd) is your trusted Apsonic authority in Ghana for tricycles, cargo bikes, passenger pragya options, tires, and after-sales support.',
       keywords:
-        'AGL business, AGL Ghana, Apusia GH, Apusiga GH, Apusiga Ghana Ltd, Apsonic Ghana, Apsonic tricycles Ghana, pragya Ghana, camboo Ghana, yellow yellow Ghana, Apsonic products Ghana',
+        'AGL business, AGL Ghana, agl.business, www.agl.business, Apusia GH, Apusiga GH, Apusiga Ghana Limited, Apusiga Ghana Ltd, Apsonic Motors Ghana, Apsnoce Motors, Apsonic Ghana, Apsonic tricycles Ghana, pragya Ghana, camboo Ghana, yellow yellow Ghana, Apsonic products Ghana',
       canonicalPath: '/',
       robots: 'index,follow,max-image-preview:large',
     })

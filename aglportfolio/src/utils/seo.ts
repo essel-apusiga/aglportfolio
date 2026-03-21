@@ -41,6 +41,14 @@ function upsertCanonical(path?: string) {
   link.setAttribute('href', canonicalHref)
 }
 
+function resolveImageUrl(url: string) {
+  if (/^https?:\/\//i.test(url) || url.startsWith('data:')) {
+    return url
+  }
+
+  return new URL(url, `${window.location.origin}/`).toString()
+}
+
 export function setSeoMeta({ title, description, keywords, canonicalPath, robots, ogImage }: SeoOptions) {
   document.title = title
   upsertMeta('description', description)
@@ -59,8 +67,9 @@ export function setSeoMeta({ title, description, keywords, canonicalPath, robots
   upsertPropertyMeta('og:type', 'website')
   upsertPropertyMeta('og:url', window.location.href)
   if (ogImage) {
-    upsertPropertyMeta('og:image', ogImage)
-    upsertMeta('twitter:image', ogImage)
+    const resolvedOgImage = resolveImageUrl(ogImage)
+    upsertPropertyMeta('og:image', resolvedOgImage)
+    upsertMeta('twitter:image', resolvedOgImage)
   }
 
   upsertMeta('twitter:card', 'summary_large_image')

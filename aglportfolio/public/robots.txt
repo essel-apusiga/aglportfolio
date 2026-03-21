@@ -3,4 +3,4 @@ Allow: /
 Disallow: /cms
 Disallow: /cms/
 
-Sitemap: https://apusigaghana.com/sitemap.xml
+Sitemap: https://www.agl.business/sitemap.xml

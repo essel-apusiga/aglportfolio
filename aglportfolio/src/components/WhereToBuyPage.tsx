@@ -36,18 +36,21 @@ function getMapEmbedUrl(coords: string) {
 export function WhereToBuyPage() {
   useEffect(() => {
     setSeoMeta({
-      title: 'Where to Buy Apsonic in Ghana | Tamale & Accra Branches | AGL',
+      title: 'Where to Buy Apsonic in Ghana | AGL Business (Apusiga GH)',
       description:
-        'Find Apusiga Ghana Ltd (AGL) branches in Tamale and Accra for Apsonic tricycles, delivery motorbikes, tires, and spare parts. We assist with DVLA registration and insurance.',
+        'Find AGL Business (Apusiga Ghana Limited / Apusiga GH) branches in Tamale and Accra for Apsonic tricycles, delivery motorbikes, tires, and spare parts. We assist with DVLA registration and insurance.',
       keywords:
-        'Apsonic dealer Ghana, tricycles for sale in Kumasi, buy motorbikes in Accra, Apsonic Tamale, Apsonic products Ghana',
+        'AGL business, agl.business, Apusiga Ghana Limited, Apusiga GH, Apusia GH, Apsonic Motors Ghana, Apsnoce Motors, Apsonic dealer Ghana, tricycles for sale in Kumasi, buy motorbikes in Accra, Apsonic Tamale, Apsonic products Ghana',
       canonicalPath: '/where-to-buy',
     })
 
     setJsonLd('where-to-buy-localbusiness', {
       '@context': 'https://schema.org',
       '@type': 'AutoDealer',
-      name: 'Apusiga Ghana Ltd (AGL)',
+      name: 'AGL Business',
+      legalName: 'Apusiga Ghana Limited',
+      alternateName: ['Apusiga GH', 'Apusia GH', 'Apsnoce Motors'],
+      url: 'https://www.agl.business',
       email: 'sales@apusigaghana.com',
       telephone: '+233537139760',
       areaServed: 'Ghana',

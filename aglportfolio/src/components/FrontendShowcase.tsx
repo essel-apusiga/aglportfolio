@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchPublishedSiteConfig } from '../utils/api'
-import { setJsonLd } from '../utils/seo'
+import { setJsonLd, setSeoMeta } from '../utils/seo'
 import { CompanyWebsite } from './website/CompanyWebsite'
 import type { CompanyWebsiteContent } from './website/types'
 
@@ -20,6 +20,22 @@ export function FrontendShowcase() {
       setContent(backendConfig)
       setStatusMessage('')
 
+      const storedCompanyImage =
+        backendConfig.hero.siteBackgroundImage?.trim() ||
+        backendConfig.hero.imageSrc?.trim() ||
+        ''
+
+      setSeoMeta({
+        title: 'AGL Business (Apusiga GH) | Apsonic Tricycles, Motorbikes and Tires in Ghana',
+        description:
+          'AGL Business (Apusiga GH / Apusiga Ghana Limited) is your trusted Apsonic authority in Ghana for tricycles, cargo bikes, passenger pragya options, tires, and after-sales support.',
+        keywords:
+          'AGL business, AGL Ghana, agl.business, www.agl.business, Apusia GH, Apusiga GH, Apusiga Ghana Limited, Apusiga Ghana Ltd, Apsonic Motors Ghana, Apsnoce Motors, Apsonic Ghana, Apsonic tricycles Ghana',
+        canonicalPath: '/',
+        robots: 'index,follow,max-image-preview:large',
+        ogImage: storedCompanyImage,
+      })
+
       const productEntities = backendConfig.products.products.map((product) => ({
         '@type': 'Product',
         name: product.name,
@@ -29,7 +45,7 @@ export function FrontendShowcase() {
           '@type': 'Brand',
           name: 'Apsonic',
         },
-        url: 'https://apusigaghana.com/where-to-buy',
+        url: 'https://www.agl.business/where-to-buy',
       }))
 
       setJsonLd('agl-home-seo', [
@@ -37,9 +53,9 @@ export function FrontendShowcase() {
           '@context': 'https://schema.org',
           '@type': 'AutoDealer',
           name: 'AGL Business',
-          legalName: 'Apusiga Ghana Ltd',
-          alternateName: ['Apusiga GH', 'Apusia GH', backendConfig.header.brandName],
-          url: 'https://apusigaghana.com',
+          legalName: 'Apusiga Ghana Limited',
+          alternateName: ['Apusiga GH', 'Apusia GH', 'Apsnoce Motors', backendConfig.header.brandName],
+          url: 'https://www.agl.business',
           telephone: backendConfig.location.contactDetails.phone,
           email: backendConfig.location.contactDetails.email,
           areaServed: 'Ghana',
