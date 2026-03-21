@@ -65,8 +65,10 @@ export function CompanyWebsite({ content }: CompanyWebsiteProps) {
     <main className="relative isolate min-h-screen w-full overflow-hidden bg-white text-emerald-950">
       {siteBackgroundImage && (
         <div
-          className="pointer-events-none fixed inset-0 z-10 bg-cover bg-center bg-no-repeat opacity-15 mix-blend-multiply"
-          style={{ backgroundImage: `url(${siteBackgroundImage})` }}
+          className="pointer-events-none fixed inset-0 z-10 bg-cover bg-center bg-no-repeat opacity-30 mix-blend-multiply"
+          style={{
+            backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.35)), url(${siteBackgroundImage})`,
+          }}
           aria-hidden="true"
         />
       )}

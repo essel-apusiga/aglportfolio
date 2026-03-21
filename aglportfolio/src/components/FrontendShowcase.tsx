@@ -18,7 +18,7 @@ export function FrontendShowcase() {
     try {
       const backendConfig = await fetchPublishedSiteConfig()
       setContent(backendConfig)
-      setStatusMessage('Showing published website content.')
+      setStatusMessage('')
 
       const productEntities = backendConfig.products.products.map((product) => ({
         '@type': 'Product',
@@ -116,9 +116,11 @@ export function FrontendShowcase() {
   return (
     <>
       <CompanyWebsite content={content} />
-      <div className="fixed bottom-4 right-4 rounded-full bg-emerald-900 px-4 py-2 text-xs font-semibold text-emerald-50 shadow-lg shadow-emerald-900/30">
-        {statusMessage}
-      </div>
+      {statusMessage && (
+        <div className="fixed bottom-4 right-4 rounded-full bg-emerald-900 px-4 py-2 text-xs font-semibold text-emerald-50 shadow-lg shadow-emerald-900/30">
+          {statusMessage}
+        </div>
+      )}
     </>
   )
 }
