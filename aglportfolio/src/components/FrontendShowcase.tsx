@@ -36,7 +36,10 @@ export function FrontendShowcase() {
         {
           '@context': 'https://schema.org',
           '@type': 'AutoDealer',
-          name: backendConfig.header.brandName,
+          name: 'AGL Business',
+          legalName: 'Apusiga Ghana Ltd',
+          alternateName: ['Apusiga GH', 'Apusia GH', backendConfig.header.brandName],
+          url: 'https://apusigaghana.com',
           telephone: backendConfig.location.contactDetails.phone,
           email: backendConfig.location.contactDetails.email,
           areaServed: 'Ghana',

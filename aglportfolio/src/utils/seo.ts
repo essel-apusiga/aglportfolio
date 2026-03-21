@@ -3,6 +3,8 @@ type SeoOptions = {
   description: string
   keywords?: string
   canonicalPath?: string
+  robots?: string
+  ogImage?: string
 }
 
 function upsertMeta(name: string, content: string) {
@@ -39,17 +41,27 @@ function upsertCanonical(path?: string) {
   link.setAttribute('href', canonicalHref)
 }
 
-export function setSeoMeta({ title, description, keywords, canonicalPath }: SeoOptions) {
+export function setSeoMeta({ title, description, keywords, canonicalPath, robots, ogImage }: SeoOptions) {
   document.title = title
   upsertMeta('description', description)
   if (keywords) {
     upsertMeta('keywords', keywords)
   }
 
+  if (robots) {
+    upsertMeta('robots', robots)
+  } else {
+    upsertMeta('robots', 'index,follow,max-image-preview:large')
+  }
+
   upsertPropertyMeta('og:title', title)
   upsertPropertyMeta('og:description', description)
   upsertPropertyMeta('og:type', 'website')
   upsertPropertyMeta('og:url', window.location.href)
+  if (ogImage) {
+    upsertPropertyMeta('og:image', ogImage)
+    upsertMeta('twitter:image', ogImage)
+  }
 
   upsertMeta('twitter:card', 'summary_large_image')
   upsertMeta('twitter:title', title)
