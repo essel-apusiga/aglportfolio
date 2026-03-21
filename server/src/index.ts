@@ -49,8 +49,12 @@ type ReadableSection = (typeof readableSectionAliases)[ReadableSectionAlias];
 let cmsStoreStatus: 'ready' | 'unavailable' = 'unavailable';
 let cmsStoreError: string | null = null;
 
+// Allow larger JSON payloads for CMS image uploads (base64 data URLs).
+const requestBodyLimit = process.env.REQUEST_BODY_LIMIT || '12mb';
+
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: requestBodyLimit }));
+app.use(express.urlencoded({ limit: requestBodyLimit, extended: true }));
 
 async function ensureCmsStoreReady() {
   try {
@@ -517,6 +521,15 @@ app.use((_req, res) => {
 // Global error handler middleware
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   const status = err.status || err.statusCode || 500;
+
+  if (status === 413 || err?.type === 'entity.too.large') {
+    res.status(413).json({
+      error: 'Uploaded image is too large for this server.',
+      message: 'Please choose a smaller image. Recommended: under 1.5MB before upload.',
+    });
+    return;
+  }
+
   const message = err.message || 'Internal Server Error';
 
   console.error('[Error]', {

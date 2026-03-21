@@ -25,6 +25,7 @@ export const companyWebsiteContent: CompanyWebsiteContent = {
     primaryCta: 'Explore Our Models',
     secondaryCta: 'Watch Demo',
     videoUrl: 'https://youtu.be/M7lc1UVf-VE',
+    siteBackgroundImage: '',
     imageSrc: heroImage,
     imageAlt: 'Apsonic motorcycles display',
   },

@@ -25,6 +25,9 @@ type Props = {
 }
 
 const MAX_IMAGE_FILE_SIZE_BYTES = 4 * 1024 * 1024
+const MAX_IMAGE_DIMENSION = 1600
+const IMAGE_OUTPUT_QUALITY = 0.78
+const MAX_DATA_URL_LENGTH = 2_000_000
 
 function formatFileSize(sizeInBytes: number) {
   if (sizeInBytes < 1024 * 1024) {
@@ -50,6 +53,40 @@ function readFileAsDataUrl(file: File) {
     reader.onerror = () => reject(new Error('Failed to read the selected image.'))
     reader.readAsDataURL(file)
   })
+}
+
+function loadImage(dataUrl: string) {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => resolve(img)
+    img.onerror = () => reject(new Error('Failed to process the selected image.'))
+    img.src = dataUrl
+  })
+}
+
+async function optimizeImageAsDataUrl(file: File): Promise<string> {
+  // SVG is already compact text; keep original data URL.
+  if (file.type === 'image/svg+xml') {
+    return readFileAsDataUrl(file)
+  }
+
+  const sourceDataUrl = await readFileAsDataUrl(file)
+  const image = await loadImage(sourceDataUrl)
+  const largestSide = Math.max(image.width, image.height)
+  const scale = largestSide > MAX_IMAGE_DIMENSION ? MAX_IMAGE_DIMENSION / largestSide : 1
+  const targetWidth = Math.max(1, Math.round(image.width * scale))
+  const targetHeight = Math.max(1, Math.round(image.height * scale))
+
+  const canvas = document.createElement('canvas')
+  canvas.width = targetWidth
+  canvas.height = targetHeight
+  const context = canvas.getContext('2d')
+  if (!context) {
+    throw new Error('Failed to process the selected image.')
+  }
+
+  context.drawImage(image, 0, 0, targetWidth, targetHeight)
+  return canvas.toDataURL('image/webp', IMAGE_OUTPUT_QUALITY)
 }
 
 // ── Shared helpers ────────────────────────────────────────────────────────
@@ -102,9 +139,15 @@ function ImageField({
     }
 
     try {
-      const dataUrl = await readFileAsDataUrl(file)
+      const dataUrl = await optimizeImageAsDataUrl(file)
+      if (dataUrl.length > MAX_DATA_URL_LENGTH) {
+        setStatus('Image is still too large after optimization. Please use a smaller image.');
+        event.target.value = ''
+        return
+      }
+
       onChange(dataUrl)
-      setStatus(`Uploaded ${file.name} (${formatFileSize(file.size)}). Image will be saved to the database when you save this section.`)
+      setStatus(`Uploaded ${file.name} (${formatFileSize(file.size)}). Optimized and ready to save.`)
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Failed to process the selected image.')
     } finally {
@@ -128,7 +171,7 @@ function ImageField({
           className="block w-full text-sm text-emerald-900 file:mr-3 file:rounded-md file:border-0 file:bg-emerald-700 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-emerald-800"
         />
         <p className="mt-2 text-xs text-emerald-700">
-          Upload JPG, PNG, WEBP, or SVG. The file is converted and stored in MongoDB when you save.
+          Upload JPG, PNG, WEBP, or SVG. Images are auto-optimized before saving to avoid upload size errors.
         </p>
         {status && <p className="mt-2 text-xs font-medium text-emerald-800">{status}</p>}
         {value && (
@@ -379,6 +422,11 @@ function HeroEditor({
           placeholder="https://youtu.be/..."
         />
       </Field>
+      <ImageField
+        label="Website background image (global blend)"
+        value={draft.siteBackgroundImage ?? ''}
+        onChange={(v) => setDraft({ ...draft, siteBackgroundImage: v })}
+      />
       <ImageField
         label="Hero image"
         value={draft.imageSrc}

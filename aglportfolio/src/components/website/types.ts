@@ -22,6 +22,7 @@ export type HeroContent = {
   primaryCta: string
   secondaryCta: string
   videoUrl?: string
+  siteBackgroundImage?: string
   imageSrc: string
   imageAlt: string
 }

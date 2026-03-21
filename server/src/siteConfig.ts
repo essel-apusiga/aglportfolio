@@ -19,6 +19,7 @@ export type SiteConfig = {
     primaryCta: string
     secondaryCta: string
     videoUrl: string
+    siteBackgroundImage: string
     imageSrc: string
     imageAlt: string
   }
@@ -108,6 +109,7 @@ export const defaultSiteConfig: SiteConfig = {
     primaryCta: 'Explore Our Models',
     secondaryCta: 'Watch Demo',
     videoUrl: 'https://youtu.be/M7lc1UVf-VE',
+    siteBackgroundImage: '',
     imageSrc: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80',
     imageAlt: 'Apsonic motorcycles display',
   },
@@ -235,6 +237,10 @@ function normalizeSiteConfig(config: SiteConfig): SiteConfig {
         typeof config.hero?.videoUrl === 'string' && config.hero.videoUrl.trim().length > 0
           ? config.hero.videoUrl.trim()
           : defaultSiteConfig.hero.videoUrl,
+      siteBackgroundImage:
+        typeof config.hero?.siteBackgroundImage === 'string'
+          ? config.hero.siteBackgroundImage.trim()
+          : defaultSiteConfig.hero.siteBackgroundImage,
     },
     products: {
       ...config.products,
