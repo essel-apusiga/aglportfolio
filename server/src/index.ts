@@ -147,6 +147,25 @@ function sectionsPayload(config: SiteConfig) {
   };
 }
 
+function getMimeTypeFromDataUrl(dataUrl: string): string | null {
+  const match = dataUrl.match(/^data:([^;,]+)[;,]/i)
+  return match?.[1] ?? null
+}
+
+function getBufferFromBase64DataUrl(dataUrl: string): Buffer | null {
+  const base64Index = dataUrl.indexOf('base64,')
+  if (base64Index === -1) {
+    return null
+  }
+
+  const base64 = dataUrl.slice(base64Index + 'base64,'.length)
+  try {
+    return Buffer.from(base64, 'base64')
+  } catch {
+    return null
+  }
+}
+
 function resolveEditableSection(value: string): EditableSection | null {
   const resolved = resolveReadableSection(value);
   if (!resolved || resolved === 'sectionOrder') {
@@ -171,6 +190,44 @@ async function saveDraftConfig(nextConfig: SiteConfig, res: express.Response) {
 // Public website endpoint (published content).
 app.get('/api/site-config', (_req, res) => {
   res.json(getSiteConfig());
+});
+
+// Public: OG image from CMS stored company image (hero.siteBackgroundImage only)
+app.get('/api/seo/og-image', (_req, res) => {
+  try {
+    const config = getSiteConfig();
+    const companyImage = config.hero.siteBackgroundImage?.trim() || '';
+
+    if (!companyImage) {
+      res.status(404).json({ error: 'No company image configured in CMS.' });
+      return;
+    }
+
+    if (/^https?:\/\//i.test(companyImage)) {
+      res.redirect(302, companyImage);
+      return;
+    }
+
+    if (companyImage.startsWith('data:image/')) {
+      const mimeType = getMimeTypeFromDataUrl(companyImage) || 'image/webp';
+      const imageBuffer = getBufferFromBase64DataUrl(companyImage);
+
+      if (!imageBuffer) {
+        res.status(500).json({ error: 'Stored company image is not a valid base64 image.' });
+        return;
+      }
+
+      res.setHeader('Content-Type', mimeType);
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      res.send(imageBuffer);
+      return;
+    }
+
+    res.status(400).json({ error: 'Company image format is unsupported. Use CMS image upload.' });
+  } catch (error) {
+    console.error('Failed to serve OG image.', error);
+    res.status(500).json({ error: 'Failed to load OG image.' });
+  }
 });
 
 app.post('/api/contact', async (req, res) => {

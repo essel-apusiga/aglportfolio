@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchPublishedSiteConfig } from '../utils/api'
-import { setJsonLd, setSeoMeta } from '../utils/seo'
+import { setJsonLd } from '../utils/seo'
 import { CompanyWebsite } from './website/CompanyWebsite'
 import type { CompanyWebsiteContent } from './website/types'
 
@@ -19,22 +19,6 @@ export function FrontendShowcase() {
       const backendConfig = await fetchPublishedSiteConfig()
       setContent(backendConfig)
       setStatusMessage('')
-
-      const storedCompanyImage =
-        backendConfig.hero.siteBackgroundImage?.trim() ||
-        backendConfig.hero.imageSrc?.trim() ||
-        ''
-
-      setSeoMeta({
-        title: 'AGL Business (Apusiga GH) | Apsonic Tricycles, Motorbikes and Tires in Ghana',
-        description:
-          'AGL Business (Apusiga GH / Apusiga Ghana Limited) is your trusted Apsonic authority in Ghana for tricycles, cargo bikes, passenger pragya options, tires, and after-sales support.',
-        keywords:
-          'AGL business, AGL Ghana, agl.business, www.agl.business, Apusia GH, Apusiga GH, Apusiga Ghana Limited, Apusiga Ghana Ltd, Apsonic Motors Ghana, Apsnoce Motors, Apsonic Ghana, Apsonic tricycles Ghana',
-        canonicalPath: '/',
-        robots: 'index,follow,max-image-preview:large',
-        ogImage: storedCompanyImage,
-      })
 
       const productEntities = backendConfig.products.products.map((product) => ({
         '@type': 'Product',
