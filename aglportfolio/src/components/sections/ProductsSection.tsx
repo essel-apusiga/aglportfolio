@@ -42,7 +42,7 @@ export function ProductsSection({ content }: ProductsSectionProps) {
         </div>
       </div>
 
-      <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3" ref={carouselRef}>
+      <div className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3" ref={carouselRef}>
         {content.products.map((product) => (
           <article
             key={product.id}
