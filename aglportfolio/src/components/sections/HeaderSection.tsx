@@ -25,13 +25,32 @@ export function HeaderSection({ content, activeHref }: HeaderSectionProps) {
     setIsMenuOpen(false)
   }
 
+  function handleLogoClick() {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <header className="sticky top-0 z-50 border-b border-emerald-100 bg-white/95 backdrop-blur" data-purpose="site-navigation">
       <div className="flex w-full items-center justify-between gap-3 px-6 py-3 md:px-12">
-        <div className="flex items-center gap-3">
-          <Badge tone="success">{content.badge}</Badge>
-          <strong className="text-lg font-bold text-emerald-950">{content.brandName}</strong>
-        </div>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            handleLogoClick()
+          }}
+          className="flex items-center gap-2 transition hover:opacity-80"
+          title="Go to home"
+          aria-label="Home"
+        >
+          {content.logoImageSrc ? (
+            <img src={content.logoImageSrc} alt="Site logo" className="h-10 w-auto object-contain" />
+          ) : (
+            <>
+              <Badge tone="success">{content.badge}</Badge>
+              <strong className="text-lg font-bold text-emerald-950">{content.brandName}</strong>
+            </>
+          )}
+        </a>
 
         <button
           className="inline-flex rounded-lg border border-emerald-200 p-2 text-emerald-800 md:hidden"

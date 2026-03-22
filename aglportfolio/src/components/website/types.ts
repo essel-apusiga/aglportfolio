@@ -9,6 +9,7 @@ export type SectionKey = 'home' | 'about' | 'products' | 'team' | 'contact'
 export type HeaderContent = {
   badge: string
   brandName: string
+  logoImageSrc?: string
   navLinks: NavLink[]
   ctaLabel: string
 }

@@ -7,6 +7,7 @@ export type SiteConfig = {
   header: {
     badge: string
     brandName: string
+    logoImageSrc?: string
     ctaLabel: string
     navLinks: Array<{ id: string; label: string; href: string }>
   }
@@ -91,6 +92,7 @@ export const defaultSiteConfig: SiteConfig = {
   header: {
     badge: 'Apsonic Motors Partner',
     brandName: 'GreenRide Apsonic',
+    logoImageSrc: '',
     ctaLabel: 'Get Started',
     navLinks: [
       { id: 'home', label: 'Home', href: '#home' },

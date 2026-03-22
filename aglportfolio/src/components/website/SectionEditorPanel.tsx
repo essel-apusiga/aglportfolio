@@ -297,6 +297,11 @@ function HeaderEditor({
       <Field label="Brand name">
         <Input value={draft.brandName} onChange={(v) => setDraft({ ...draft, brandName: v })} />
       </Field>
+      <ImageField
+        label="Logo image (optional - replaces badge and name)"
+        value={draft.logoImageSrc ?? ''}
+        onChange={(v) => setDraft({ ...draft, logoImageSrc: v })}
+      />
       <Field label="Badge text">
         <Input value={draft.badge} onChange={(v) => setDraft({ ...draft, badge: v })} />
       </Field>

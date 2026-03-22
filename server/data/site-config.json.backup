@@ -186,14 +186,6 @@
       "copyright": "© 2026 GreenRide Apsonic. All rights reserved."
     }
   },
-  "published": {
-    "sectionOrder": [
-      "home",
-      "products",
-      "about",
-      "contact",
-      "team"
-    ],
     "header": {
       "badge": "Apsonic Motors Partner",
       "brandName": "GreenRide Apsonic",
