@@ -1,9 +1,11 @@
+import { buildWhatsAppHref } from '../utils/contact'
+
 type WhatsAppFloatButtonProps = {
   message?: string
 }
 
 export function WhatsAppFloatButton({ message = 'Hello AGL, I need details on Apsonic products in Ghana.' }: WhatsAppFloatButtonProps) {
-  const href = `https://wa.me/233537139760?text=${encodeURIComponent(message)}`
+  const href = buildWhatsAppHref(message)
 
   return (
     <a

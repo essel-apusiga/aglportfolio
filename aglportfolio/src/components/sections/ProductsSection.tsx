@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { FiArrowLeft, FiArrowRight, FiEye, FiMail, FiX } from 'react-icons/fi'
+import { buildWhatsAppHref } from '../../utils/contact'
 import type { ProductSectionContent } from '../website/types'
 
 type ProductsSectionProps = {
@@ -31,7 +32,7 @@ async function shareViaWhatsApp(productName: string, imageSrc: string) {
   const message = imageUrl
     ? `Hello AGL, I need details for ${productName}.\nProduct image: ${imageUrl}`
     : `Hello AGL, I need details for ${productName}.`
-  const waUrl = `https://wa.me/233537139760?text=${encodeURIComponent(message)}`
+  const waUrl = buildWhatsAppHref(message)
 
   if (typeof navigator !== 'undefined' && navigator.canShare) {
     try {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchPublishedSiteConfig } from '../utils/api'
+import { buildWhatsAppHref } from '../utils/contact'
 import { setJsonLd } from '../utils/seo'
 import { CompanyWebsite } from './website/CompanyWebsite'
 import type { CompanyWebsiteContent } from './website/types'
@@ -9,6 +10,7 @@ export function FrontendShowcase() {
   const [hasError, setHasError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [statusMessage, setStatusMessage] = useState<string>('Loading published website content...')
+  const fallbackWhatsAppHref = buildWhatsAppHref('Hello AGL, your website is currently unavailable. Please assist.')
 
   async function loadFromBackend() {
     setIsLoading(true)
@@ -96,7 +98,7 @@ export function FrontendShowcase() {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-2">
                 <a
-                  href="https://wa.me/233537139760?text=Hello%20AGL%2C%20your%20website%20is%20currently%20unavailable.%20Please%20assist."
+                  href={fallbackWhatsAppHref}
                   className="rounded-lg border border-emerald-300 px-3 py-2 text-xs font-semibold text-emerald-800 transition hover:bg-emerald-50"
                 >
                   Contact on WhatsApp
