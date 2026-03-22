@@ -37,3 +37,98 @@ body {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes softZoom {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 10px 24px rgba(6, 78, 59, 0.35);
+  }
+  50% {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(6, 78, 59, 0.45);
+  }
+}
+
+@keyframes modalBackdropIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalImageIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.anim-fade-up {
+  animation: fadeUp 520ms ease-out both;
+}
+
+.anim-fade-up-delay-1 {
+  animation-delay: 90ms;
+}
+
+.anim-fade-up-delay-2 {
+  animation-delay: 170ms;
+}
+
+.anim-soft-zoom {
+  animation: softZoom 420ms ease-out both;
+}
+
+.anim-pulse-float {
+  animation: pulseFloat 2.4s ease-in-out infinite;
+}
+
+.anim-modal-backdrop-in {
+  animation: modalBackdropIn 180ms ease-out both;
+}
+
+.anim-modal-image-in {
+  animation: modalImageIn 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade-up,
+  .anim-fade-up-delay-1,
+  .anim-fade-up-delay-2,
+  .anim-soft-zoom,
+  .anim-pulse-float,
+  .anim-modal-backdrop-in,
+  .anim-modal-image-in {
+    animation: none !important;
+  }
+}
