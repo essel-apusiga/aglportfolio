@@ -189,7 +189,7 @@ export function CmsStudio() {
 
         <div className="overflow-y-auto bg-emerald-100/40 p-3 md:p-4">
           <div className={`mx-auto overflow-hidden rounded-xl bg-white shadow-lg shadow-emerald-900/10 ${previewMode === 'mobile' ? 'max-w-[390px]' : 'max-w-full'}`}>
-            <CompanyWebsite content={config} />
+            <CompanyWebsite content={config} showCompanyBackground={false} />
           </div>
         </div>
 

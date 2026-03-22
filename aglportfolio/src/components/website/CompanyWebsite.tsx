@@ -15,9 +15,10 @@ import type { CompanyWebsiteContent, SectionKey } from './types'
 
 type CompanyWebsiteProps = {
   content: CompanyWebsiteContent
+  showCompanyBackground?: boolean
 }
 
-export function CompanyWebsite({ content }: CompanyWebsiteProps) {
+export function CompanyWebsite({ content, showCompanyBackground = true }: CompanyWebsiteProps) {
   const [activeHref, setActiveHref] = useState<string | undefined>(content.header.navLinks[0]?.href)
   const siteBackgroundImage = content.hero.siteBackgroundImage?.trim() || ''
 
@@ -63,7 +64,7 @@ export function CompanyWebsite({ content }: CompanyWebsiteProps) {
 
   return (
     <main className="relative isolate min-h-screen w-full overflow-hidden bg-white text-emerald-950">
-      {siteBackgroundImage && (
+      {showCompanyBackground && siteBackgroundImage && (
         <div
           className="pointer-events-none fixed inset-0 z-10 bg-cover bg-center bg-no-repeat opacity-30 mix-blend-multiply"
           style={{
