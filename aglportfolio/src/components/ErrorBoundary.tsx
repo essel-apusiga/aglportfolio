@@ -11,6 +11,13 @@ type State = {
   errorMessage?: string
 }
 
+function isIgnorableBrowserError(message: string): boolean {
+  return (
+    message.includes('ResizeObserver loop completed with undelivered notifications') ||
+    message.includes('ResizeObserver loop limit exceeded')
+  )
+}
+
 export class ErrorBoundary extends Component<Props, State> {
   state: State = {
     hasError: false,
@@ -18,17 +25,28 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   private handleWindowError = (event: ErrorEvent) => {
+    const message = event.error instanceof Error ? event.error.message : event.message
+    if (isIgnorableBrowserError(message ?? '')) {
+      // This browser warning is noisy but non-fatal; keep the app running.
+      return
+    }
+
     this.setState({
       hasError: true,
-      errorMessage: event.error instanceof Error ? event.error.message : event.message,
+      errorMessage: message,
     })
   }
 
   private handleUnhandledRejection = (event: PromiseRejectionEvent) => {
     const reason = event.reason
+    const message = reason instanceof Error ? reason.message : String(reason)
+    if (isIgnorableBrowserError(message)) {
+      return
+    }
+
     this.setState({
       hasError: true,
-      errorMessage: reason instanceof Error ? reason.message : String(reason),
+      errorMessage: message,
     })
   }
 

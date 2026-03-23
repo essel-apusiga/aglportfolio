@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { FiChevronDown, FiChevronUp, FiPlus, FiSave, FiTrash2 } from 'react-icons/fi'
 import { Button } from '../../sharedcomponents'
 import { saveCmsSection, saveNavLinks, saveSectionOrder, saveSiteConfig } from '../../utils/api'
+import { normalizeMapEmbedUrl } from '../../utils/maps'
 import type {
   AboutSectionContent,
   AboutStat,
@@ -805,7 +806,7 @@ function ContactEditor({
       <Field label="Map embed URL">
         <Input
           value={draft.mapEmbedUrl}
-          onChange={(v) => setDraft({ ...draft, mapEmbedUrl: v })}
+          onChange={(v) => setDraft({ ...draft, mapEmbedUrl: normalizeMapEmbedUrl(v) })}
         />
       </Field>
 

@@ -188,7 +188,7 @@ export const defaultSiteConfig: SiteConfig = {
     id: 'contact',
     title: 'Visit Our Location',
     description: 'Our Accra showroom and service center supports test rides, model consultations, and post-purchase maintenance.',
-    mapEmbedUrl: 'https://www.openstreetmap.org/export/embed.html?bbox=-0.236%2C5.53%2C-0.11%2C5.63&layer=mapnik',
+    mapEmbedUrl: 'https://www.google.com/maps?q=No.+12+Industrial+Road,+North+Kaneshie,+Accra,+Ghana&output=embed',
     contactDetails: {
       addressLabel: 'Address',
       addressLines: ['No. 12 Industrial Road, North Kaneshie', 'Accra, Ghana'],

@@ -23,14 +23,8 @@ function getMapEmbedUrl(coords: string) {
   const [latRaw, lngRaw] = coords.split(',')
   const lat = Number(latRaw)
   const lng = Number(lngRaw)
-  const delta = 0.06
 
-  const minLng = (lng - delta).toFixed(6)
-  const minLat = (lat - delta).toFixed(6)
-  const maxLng = (lng + delta).toFixed(6)
-  const maxLat = (lat + delta).toFixed(6)
-
-  return `https://www.openstreetmap.org/export/embed.html?bbox=${minLng}%2C${minLat}%2C${maxLng}%2C${maxLat}&layer=mapnik&marker=${lat.toFixed(6)}%2C${lng.toFixed(6)}`
+  return `https://www.google.com/maps?q=${lat.toFixed(6)},${lng.toFixed(6)}&z=14&output=embed`
 }
 
 export function WhereToBuyPage() {

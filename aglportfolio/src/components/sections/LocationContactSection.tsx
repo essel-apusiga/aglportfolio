@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Button } from '../../sharedcomponents'
 import { sendContactMessage } from '../../utils/api'
+import { normalizeMapEmbedUrl } from '../../utils/maps'
 import type { LocationSectionContent } from '../website/types'
 
 type LocationContactSectionProps = {
@@ -8,6 +9,7 @@ type LocationContactSectionProps = {
 }
 
 export function LocationContactSection({ content }: LocationContactSectionProps) {
+  const mapEmbedUrl = normalizeMapEmbedUrl(content.mapEmbedUrl)
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [touched, setTouched] = useState({ name: false, email: false, message: false })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -97,9 +99,25 @@ export function LocationContactSection({ content }: LocationContactSectionProps)
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-emerald-200">
-          <iframe title="Company location" src={content.mapEmbedUrl} loading="lazy" className="h-72 w-full border-0" />
-        </div>
+        {mapEmbedUrl ? (
+          <div className="overflow-hidden rounded-xl border border-emerald-200">
+            <iframe title="Company location" src={mapEmbedUrl} loading="lazy" className="h-72 w-full border-0" />
+          </div>
+        ) : (
+          <div className="rounded-xl border border-emerald-200 bg-white px-4 py-3 text-sm text-emerald-800">
+            Map URL is missing or invalid. Add a valid embeddable map link in CMS.
+          </div>
+        )}
+        {mapEmbedUrl && (
+          <a
+            href={mapEmbedUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex text-sm font-semibold text-emerald-700 underline-offset-4 hover:underline"
+          >
+            Open map in new tab
+          </a>
+        )}
       </div>
 
       <div className="rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm" data-purpose="contact-form-container">
