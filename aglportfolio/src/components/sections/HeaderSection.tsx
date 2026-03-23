@@ -43,7 +43,7 @@ export function HeaderSection({ content, activeHref }: HeaderSectionProps) {
           aria-label="Home"
         >
           {content.logoImageSrc ? (
-            <img src={content.logoImageSrc} alt="Site logo" className="h-10 w-auto object-contain" />
+            <img src={content.logoImageSrc} alt="Site logo" className="h-14 w-auto object-contain md:h-16" />
           ) : (
             <>
               <Badge tone="success">{content.badge}</Badge>
